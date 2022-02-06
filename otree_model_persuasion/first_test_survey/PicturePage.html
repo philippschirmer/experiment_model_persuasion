@@ -1,0 +1,18 @@
+{{ block title }}
+    Show an example picture here
+{{ endblock }}
+
+
+{{ block content }}
+
+Please look at this picture.
+
+<img src="{{ static 'first_test_survey/rplot_1_8.jpg' }}"/>
+
+<img src="{{ static image_path }}"/>
+
+    {{ next_button }}
+
+The test number is {{ a }}
+
+{{ endblock }}
