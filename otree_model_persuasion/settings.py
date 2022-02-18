@@ -16,7 +16,11 @@ SESSION_CONFIGS = [
         num_demo_participants=3,
         app_sequence=['first_test_survey']
     ),
-
+    dict(
+        name='persuasion',
+        num_demo_participants=2,
+        app_sequence=['persuasion']
+    ),
     dict(
         name='my_first_receiver_exp',
         display_name='A first attempt at a receiver game',
