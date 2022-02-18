@@ -100,6 +100,6 @@ page_sequence = [Introduction,
                 PersuaderPage, 
                 BiasedPage, 
                 AlignedPage, 
+                ReceiverPage,
                 ReceiverBusy, 
-                Wait, 
-                ReceiverPage]
+                Wait]
