@@ -1,0 +1,23 @@
+{{ block title }}Persuader Role{{ endblock }}
+{{ block content }}
+
+    <p>
+        You are in the Persuader Role. In this role, you will be playing a financial adviser. In the next 
+        pages, you will presented with different charts that show the evolution of stock prices over time. 
+    </p>
+
+    <p>
+        To be precise, you will have to predict the stock price at 
+        <MATH>T=100</MATH> by calculating (?) the trend of the stock 
+        price as shown in the next example:
+
+        <p style="text-align:center;"><img src="{{ static 'first_test_survey/rplot_1_8.jpg' }}" width="500px" class="center"/></p>
+    </p>
+    <p>
+        The goal is to convince the Receiver of buying or selling the stock at <MATH>T=100</MATH>, based on
+        your predition about the stock price. In this game, there are two types of Persuaders: 
+        the Biased and the Aligned. In the next step, you will be randomly asigned to either of these roles.
+    </p>
+    {{ next_button }}
+
+{{ endblock }}
