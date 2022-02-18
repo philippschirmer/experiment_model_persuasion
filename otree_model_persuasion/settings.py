@@ -18,10 +18,10 @@ SESSION_CONFIGS = [
     ),
 
     dict(
-        name='my_first_receiver_exp',
-        display_name='A first attempt at a receiver game',
+        name='sandbox',
+        display_name='Sandbox A first attempt at a receiver game',
         num_demo_participants=3,
-        app_sequence=['my_first_receiver_exp']
+        app_sequence=['sandbox']
     )
 
 ]
