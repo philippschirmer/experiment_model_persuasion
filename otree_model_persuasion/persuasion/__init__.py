@@ -20,21 +20,26 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     age = models.IntegerField(label='What is your age?', min=C.AGE_MIN, max=C.AGE_MAX)
     gender = models.StringField(
-        choices=[['Male', 'Male'], ['Female', 'Female']],
+        choices=[
+                ['Male', 'Male'], 
+                ['Female', 'Female'],
+                ['Other', 'Other']                
+        ],
         label='What is your gender?',
         widget=widgets.RadioSelect,
     )
-    treatment = True
+    treatment = models.BooleanField(initial=False)
     def role(player):
         if player.id_in_group == 1:
             return 'persuader'
         else:
             return 'receiver'
     def bias(player):
-        if player.id_in_group == 1 & player.treatment == True:
-            return  'biased'
-        else:
-            return 'aligned'
+        if player.id_in_group == 1:
+            if player.treatment == True:
+                return  'biased'
+            else:
+                return 'aligned'
 
 #def creating_session(subsession):
 #    for player in subsession.get_players():
@@ -70,6 +75,11 @@ class BiasedPage(Page):
     def is_displayed(player):
         return player.bias() == 'biased'
 
+class AlignedPage(Page):
+    @staticmethod
+    def is_displayed(player):
+        return player.bias() == 'aligned'
+
 class ReceiverBusy(Page):
 
     @staticmethod
@@ -85,4 +95,11 @@ class ReceiverPage(Page):
     def is_displayed(player):
         return player.role() == 'receiver'
 
-page_sequence = [Introduction, Demographics, PersuaderPage, BiasedPage, ReceiverBusy, Wait, ReceiverPage]
+page_sequence = [Introduction, 
+                Demographics, 
+                PersuaderPage, 
+                BiasedPage, 
+                AlignedPage, 
+                ReceiverBusy, 
+                Wait, 
+                ReceiverPage]
