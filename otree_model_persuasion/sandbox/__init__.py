@@ -35,6 +35,21 @@ class Player(BasePlayer):
     graph_number = models.IntegerField()
     info_incentives = models.BooleanField()
     std_layout = models.IntegerField()
+    price = models.FloatField()
+    number = models.IntegerField()
+    slider_one = models.IntegerField(initial=None, blank=False, max=100, min=-100)
+
+
+    # Persuader's model choice / message
+    model_message_1 = models.FloatField(initial=None, blank=False, max=100, min=-100)
+    # models.FloatField(
+    # widget=widgets.SliderInput(attrs={'step': '1', 'style': 'width:500px', 'autocomplete':'off'}, show_value=False),
+    # min=0,
+    # initial=0,
+    # max=80,
+    # )
+    # Model Message Test (TODO)
+    # check_model_message = models.FloatField(blank=True, initial=None)
 
 
 # PAGES
@@ -92,6 +107,16 @@ class Plotly_Simple_Slider_Test(Page):
     pass
 
 
-#page_sequence = [Intro_Page, Information_Receiver, Treatment_Info_Incentives, Investment_Decision, Results]
+class Slider_Test(Page):
+    form_model = 'player'
+    form_fields = ['slider_one']
 
-page_sequence= [Intro_Page, Plotly_Simple_Slider_Test, Plotly_Slider_Test, Plotly_Test, Java_Test_2, Java_Test_1]
+
+class SliderPage(Page):
+    form_model = 'player'
+    form_fields = ['price', 'number']
+
+
+#page_sequence = [Intro_Page, Information_Receiver, Treatment_Info_Incentives, Investment_Decision, Results]
+# Slider_Test
+page_sequence= [Intro_Page, Slider_Test, SliderPage, Plotly_Simple_Slider_Test, Plotly_Slider_Test, Plotly_Test, Java_Test_2, Java_Test_1]
