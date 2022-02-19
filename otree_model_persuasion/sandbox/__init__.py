@@ -38,7 +38,7 @@ class Player(BasePlayer):
     price = models.FloatField()
     number = models.IntegerField()
     slider_one = models.IntegerField(initial=None, blank=False, max=100, min=-100)
-
+    placeholder =models.IntegerField(initial=1)
 
     # Persuader's model choice / message
     model_message_1 = models.FloatField(initial=None, blank=False, max=100, min=-100)
@@ -107,16 +107,22 @@ class Plotly_Simple_Slider_Test(Page):
     pass
 
 
-class Slider_Test(Page):
-    form_model = 'player'
-    form_fields = ['slider_one']
-
 
 class SliderPage(Page):
     form_model = 'player'
     form_fields = ['price', 'number']
 
+class Slider_Test2(Page):
+    form_model = 'player'
+    form_fields = ['placeholder']
 
-#page_sequence = [Intro_Page, Information_Receiver, Treatment_Info_Incentives, Investment_Decision, Results]
-# Slider_Test
-page_sequence= [Intro_Page, Slider_Test, SliderPage, Plotly_Simple_Slider_Test, Plotly_Slider_Test, Plotly_Test, Java_Test_2, Java_Test_1]
+    @staticmethod
+    def vars_for_template(player):
+        return dict(
+            image_path='sandbox/Rplot_1_{}.png'.format(player.placeholder)
+        )
+
+
+
+
+page_sequence= [Intro_Page, Slider_Test2, SliderPage, Plotly_Simple_Slider_Test, Plotly_Slider_Test, Plotly_Test, Java_Test_2, Java_Test_1]
