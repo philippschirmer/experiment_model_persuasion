@@ -2,6 +2,49 @@
 {{ block content }}
 
 
+<style>
+.slidecontainer {
+  width: 60%; /* Width of the outside container */
+}
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #04AA6D; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #04AA6D; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+
+</style>
+
 
 
 The purpose of this slide is to test the implementation of a slider.
@@ -15,10 +58,12 @@ The purpose of this slide is to test the implementation of a slider.
 
 <img src="{{ static 'sandbox/Rplot_1_1.png'}}" id="myImage" />
 
+<div class="slidecontainer">
+    <input type="range" placeholder="Enter some number from 1 to 5" min="1" max="79" value="1" class="slider" id="myRange" name="placeholder">
+  </div>
 
 
-<input type="range" placeholder="Enter some number from 1 to 5" name="placeholder" min="1" max="40"/>
-<p id="values"></p> 
+You have chosen the model value   <p id="values"></p> 
 
 
 <img src="https://i.imgur.com/69SUs49.jpeg" width="500px" />
@@ -46,7 +91,7 @@ function updatePicture(e) {
   const js_image_path = '/static/persuasion/fig_test_' + val + '.jpg';
 
 
-  myImage.src = "{{ static 'sandbox/Rplot_1_5.png'}}";
+  myImage.src = "{{ static 'persuasion/fig_test_0.jpg'}}";
 
   myImage.src = js_image_path;
 
