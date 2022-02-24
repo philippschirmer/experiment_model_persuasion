@@ -14,12 +14,12 @@ def gen_neutral_graphs(data, model_space, hyperparams, wd):
         model_space: 1D np-array: models for which to fit and draw an individual graph, each
         hyperparams: (optional?) 1D np.array - specifying special settings for the graph generation
         (TBD)
+        wd: string - working directory where the files are to be saved.
 
     Outputs: neutral_graph_`data': picture file with neutral graphs saved to prespecified
     project folder.
     '''
-    test= np.array([0,0])
-
+  
     for i in model_space:
 
         shift_point = model_space[i]
