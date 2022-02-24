@@ -230,14 +230,14 @@ class AlignedPage_Q(Page):
     'item2A', 
     'item3A'
     ]
-
+    """
     def error_message(player, values):
         if values['item1B'] != 'The buyer receives a positive revenue since he/she could sell the stock and make a profit.':
             return 'Incorrect answer for Question 1. Please try again.'
         if values['item2A'] != 30: ### check which value will apply after selecting final image
             return 'Incorrect answer for Question 2. Please try again.'
         if values['item3A'] != 'Increase':
-            return 'Incorrect answer for Question 3. Please try again.'
+            return 'Incorrect answer for Question 3. Please try again.'"""
 
     @staticmethod
     def is_displayed(player):
@@ -271,7 +271,9 @@ class ReceiverBusy(Page):
 Wait page.
 """
 class Wait(WaitPage):
-    pass
+    template_name = 'persuasion/Wait.html'
+    title_text = "Please Wait"
+    body_text = "Please wait until the other participants have make their choices!"
 
 """
 Landing page if participant is randomly selected as receiver.
@@ -290,13 +292,14 @@ class ReceiverPage_Q(Page):
     'item3A'
     ]
 
-    def error_message(player, values):
+    """    def error_message(player, values):
         if values['item1C'] != 'All the above':
             return 'Incorrect answer for Question 1. Please try again.'
         if values['item2A'] != 30: ### check which value will apply after selecting final image
             return 'Incorrect answer for Question 2. Please try again.'
         if values['item3A'] != 'Increase':
-            return 'Incorrect answer for Question 3. Please try again.'
+            return 'Incorrect answer for Question 3. Please try again.'"""
+
     @staticmethod
     def is_displayed(player):
         return player.role() == 'receiver'
@@ -322,6 +325,7 @@ class EffortTask(Page):
     form_fields = ['number_selected']
 
     def vars_for_template(player):
+
         number_1 = random.randint(1,100)
         number_2 = random.randint(1,100)
 
@@ -332,8 +336,6 @@ class EffortTask(Page):
             'number_2':number_2,
         }
     
-    
-    #def error_message(player, values) error message for wrong sum
     def error_message(player, values):
         if player.sum_random_numbers != values['number_selected']:
             return 'Wrong answer, please try again.'
