@@ -31,7 +31,3 @@ from scipy import randn
 
 # generate inputs function.
 
-
-
-def generate_data():
-    shocks = zeros(0,1)

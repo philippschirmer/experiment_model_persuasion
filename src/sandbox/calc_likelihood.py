@@ -15,4 +15,11 @@ def calc_likelihood(data, model, params):
             params: 1D np.array     - parameters of model.
 
      ''' 
+
+    if model = "switching_arima":
+        differenced= 1-2
+
+
+
+
     pass
