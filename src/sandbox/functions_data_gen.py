@@ -2,6 +2,7 @@
 # could be just a random choice function?
 
 import numpy as np
+import pandas as pd
 
 obs = 80
 
@@ -38,4 +39,75 @@ def gen_random_model(model_space, model_prior):
     return trend_shift
 
 
-gen_random_model(model_space, model_prior)
+# TODO: Write function that generates the data based on model, parameter, observations.
+
+# TODO: Make sure to have correct definition of model.
+
+def generate_data(model, p, trend_abs, var_errors, obs, seed):
+    ''' Generates the data for a specified model, specified parameters and hyperparameters
+        
+        Inputs:
+        model: String, determines which data generating process class to use
+        params: np-array (1D) TODO: Could also be list?, determines the parametrization
+        for the chosen model (e.g. betas, trend, variance )
+        obs: pos. Integer, determines how many data points to generate. 
+        seed: integer, to replicate certain data generations.
+        Outputs: 
+        data_generated - np-array ((1+K) D ) of dependent and independent variables of data.
+    
+    '''
+
+    #Generate timeline
+    t = np.arange(0,obs,1,dtype=int)
+
+    # Generate (stochastic) trend:
+    # Either first increasing, then decreasing, or vice versa.
+
+    # Generate (normally distributed) errors
+    rng = np.random.default_rng(seed)
+  
+    errors = rng.normal(0, var_errors, obs)
+
+
+
+    # Set the shifting point.
+    trend_shift = model
+
+
+    trend = np.array([0,0])
+
+    draw_rand_bin = rng.binomial(1, p, size=None)
+    if draw_rand_bin == 0:
+        trend = np.array([trend_abs,-trend_abs])
+    elif draw_rand_bin == 1:
+        trend = np.array([trend_abs,-trend_abs]) 
+
+
+    # generate trend vector including shift
+
+    trend_with_shift = np.full(100,trend_abs)
+    for i in range(0,100):
+        if i <= trend_shift:
+            trend_with_shift[i] = trend[0]
+        elif i > trend_shift:
+            trend_with_shift[i] = trend[1]
+
+    trend_with_shift
+
+
+    # run cumulative trend, errors
+
+    cum_sum_trend = np.cumsum(trend_with_shift)
+
+    cum_sum_errors = np.cumsum(errors)
+
+    # shift y upwards by 100 to "normalize" stock
+    y = cum_sum_trend + cum_sum_errors + 100
+
+
+    stacked_array= np.stack((t, y), axis=-1)
+    data = pd.DataFrame(stacked_array).rename(columns={0: "Time", 1: "Stock price"})
+
+
+
+    return data

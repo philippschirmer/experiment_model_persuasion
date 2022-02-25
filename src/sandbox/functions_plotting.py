@@ -4,8 +4,7 @@
 import numpy as np
 import plotly.express as px
 
-
-def gen_neutral_graphs(data, model_space, hyperparams, wd):
+def gen_model_graphs(data, model_space, hyperparams, wd):
     '''TODO: Function that generates "neutral" graphs, i.e. graphs that don't have any model message yet
     To be used in the first part of the experiment, where the receiver decides without observing data.
     
@@ -25,10 +24,10 @@ def gen_neutral_graphs(data, model_space, hyperparams, wd):
         shift_point = model_space[i]
 
         fig = px.line(data, x="Time", 
-                                y="Stock price",
-                                labels={'number_obs':'Number of Observations', 'runtime':'runtime'},
-                                title='Development of a stock price',
-                                )
+                            y="Stock price",
+                            labels={'number_obs':'Number of Observations', 'runtime':'runtime'},
+                            title='Development of a stock price',
+                            )
         fig.update_layout(paper_bgcolor='#fff' )
         fig.update_layout(plot_bgcolor='#fff' )
 
@@ -60,4 +59,34 @@ def gen_neutral_graphs(data, model_space, hyperparams, wd):
         )
 
         fig.write_image(wd + "/img/fig_test_{}.jpg".format(shift_point))
+    return None
+
+
+
+def gen_neutral_graphs(data, wd):
+    '''TODO: Function that generates "neutral" graphs, i.e. graphs that don't have any model message yet
+    To be used in the first part of the experiment, where the receiver decides without observing data.
+    
+    Inputs:
+        data: 2D np.array of shape 2xT - Y's and X's to be plotted
+        model_space: 1D np-array: models for which to fit and draw an individual graph, each
+        hyperparams: (optional?) 1D np.array - specifying special settings for the graph generation
+        (TBD)
+        wd: string - working directory where the files are to be saved.
+
+    Outputs: neutral_graph_`data': picture file with neutral graphs saved to prespecified
+    project folder.
+    '''
+  
+    fig = px.line(data, x="Time", 
+                        y="Stock price",
+                        labels={'number_obs':'Number of Observations', 'runtime':'runtime'},
+                        title='Development of a stock price',
+                        )
+    fig.update_layout(paper_bgcolor='#fff' )
+    fig.update_layout(plot_bgcolor='#fff' )
+
+
+    fig.write_image(wd + "/img/neutral_graph_test.jpg")
+
     return None
