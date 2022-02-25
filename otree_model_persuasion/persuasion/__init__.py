@@ -142,11 +142,11 @@ class Player(BasePlayer):
     number_selected = models.IntegerField(
         label = 'Your answer'
     )
-    item3A = models.IntegerField()
-    item3B = models.IntegerField()
-    item3C = models.IntegerField()
-    item3D = models.IntegerField()
+    item1E = models.IntegerField()
+    item2E = models.IntegerField()
     item3E = models.IntegerField()
+    item4E = models.IntegerField()
+    item5E = models.IntegerField()
 
     model_message_1 = models.IntegerField()
     message_received = models.IntegerField()
@@ -441,9 +441,9 @@ class EffortTask(Page):
     #         rand_numbers_2['number_'+ str(i)] = number_i
     #     return rand_numbers_2
 
-    def error_message(player, values):
-        if player.sum_random_numbers != values['number_selected']:
-            return 'Wrong answer, please try again.'
+    #def error_message(player, values):
+    #    if player.sum_random_numbers != values['number_selected']:
+    #        return 'Wrong answer, please try again.'
 
     @staticmethod
     def is_displayed(player):
