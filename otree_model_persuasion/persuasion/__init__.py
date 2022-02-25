@@ -131,8 +131,14 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         choices=C.CathegoricalChoices
     )
-    number_selected = models.IntegerField()
-    sum_random_numbers = models.IntegerField()
+    number_selected = models.IntegerField(
+        label = 'Your answer'
+    )
+    item3A = models.IntegerField()
+    item3B = models.IntegerField()
+    item3C = models.IntegerField()
+    item3D = models.IntegerField()
+    item3E = models.IntegerField()
 #def creating_session(subsession):
 #    for player in subsession.get_players():
 #        if player.role == C.PERSUADER_ROLE:
@@ -325,17 +331,25 @@ class EffortTask(Page):
     form_fields = ['number_selected']
 
     def vars_for_template(player):
+        rand_numbers_1=dict()
+        N_1 = range(1,11)
+        for i in list(N_1):
+            number_i = random.randint(1,100)
+            rand_numbers_1['number_'+ str(i)] = number_i
+        return rand_numbers_1
 
-        number_1 = random.randint(1,100)
-        number_2 = random.randint(1,100)
+    def correct_answer(player):
+        values = player.rand_numbers_1.values
+        return values 
+        
+    # def vars_for_template(player):
+    #     rand_numbers_2=dict()
+    #     N = range(11,21)
+    #     for i in list(N):
+    #         number_i = random.randint(1,100)
+    #         rand_numbers_2['number_'+ str(i)] = number_i
+    #     return rand_numbers_2
 
-        player.sum_random_numbers = number_1 + number_2
-
-        return{
-            'number_1':number_1,
-            'number_2':number_2,
-        }
-    
     def error_message(player, values):
         if player.sum_random_numbers != values['number_selected']:
             return 'Wrong answer, please try again.'
