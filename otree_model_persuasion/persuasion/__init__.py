@@ -36,8 +36,16 @@ class C(BaseConstants): #do not vary from player to player
 class Subsession(BaseSubsession):
     pass
 
+
 class Group(BaseGroup):
     pass
+    #model_message_1 = models.IntegerField()
+
+    # def set_model_message_received(group):
+    #     players = group.get_players()
+    #     model_message_test = [p.model_message_1 for p in players]
+    #     for player in players:
+    #         player.message_received = model_message_test[0]
 
 class Player(BasePlayer):
     age = models.IntegerField(
@@ -133,6 +141,21 @@ class Player(BasePlayer):
     )
     number_selected = models.IntegerField()
     sum_random_numbers = models.IntegerField()
+
+    model_message_1 = models.IntegerField()
+    message_received = models.IntegerField()
+
+    receiver_decision_1 = models.StringField(
+    choices=[
+            ['Buy', 'Buy'], 
+            ['Sell', 'Sell']            
+    ],
+    label='Would you like to buy, or sell the stock?',
+    widget=widgets.RadioSelect,
+    blank=True # FOR TESTING...quitar despues 
+    )
+
+
 #def creating_session(subsession):
 #    for player in subsession.get_players():
 #        if player.role == C.PERSUADER_ROLE:
@@ -140,7 +163,46 @@ class Player(BasePlayer):
 #    else:
 #        pass 
 
+
+
+# FUNCTIONS
+
+# Update players' (receivers) received model message.
+# Function gets called after the effort task, before the second set of receiver decisions.
+def set_model_message_received(group):
+    players = group.get_players()
+    player_receiver = players[0]
+    model_message_test = player_receiver.model_message_1
+    for player in players:
+        player.message_received = model_message_test
+
+
+# Calculate the players' payoffs at the end of the game.
+def set_payoffs(group):
+    players = group.get_players()
+
+    # Define when a buy/sell are the ex post "right" decision.
+
+    # Persuaders gets payoffs depending on role (biased or aligned),
+    # and decisions of receivers
+    player_receiver = players[0]
+
+    # Persuaders get payoff if their predictions are correct.
+    #
+
+    for player in players:
+        player.payoff = C.ENDOWMENT + 5
+
+    contributions = [p.contribution for p in players]
+    group.total_contribution = sum(contributions)
+    group.individual_share = group.total_contribution * C.MULTIPLIER / C.PLAYERS_PER_GROUP
+    for player in players:
+        player.payoff = C.ENDOWMENT - player.contribution + group.individual_share
+
+
 # PAGES
+
+
 
 """
 Introduction page where general instructions are displayed.
@@ -248,9 +310,12 @@ Page for decision making for the persuader (does it matter if he/she is aligned 
 
 """
 class DecisionPersuader(Page):
+    form_model = 'player'
+    form_fields = ['model_message_1']
     @staticmethod
     def is_displayed(player):
         return player.role() == 'persuader'
+
 """
 Landing page if participant is randomly selected as aligned persuader.
 """
@@ -274,6 +339,8 @@ class Wait(WaitPage):
     template_name = 'persuasion/Wait.html'
     title_text = "Please Wait"
     body_text = "Please wait until the other participants have make their choices!"
+
+    after_all_players_arrive = set_model_message_received
 
 """
 Landing page if participant is randomly selected as receiver.
@@ -305,10 +372,34 @@ class ReceiverPage_Q(Page):
         return player.role() == 'receiver'
 
 class DecisionReceiver(Page):
+    form_model = 'player'
+    form_fields = ['receiver_decision_1']
+
+
     @staticmethod
     def is_displayed(player):
         return player.role() == 'receiver'
 
+
+    def vars_for_template(group):
+        # group_model_path = "/static/persuasion/fig_test_{}.jpg".format(group.model_message_1)
+        # group_model_path = "/static/persuasion/fig_test_10.jpg"
+
+
+        return{
+            'group_model_path':group_model_path
+        }
+
+    def vars_for_template(player):
+        # Just using age right now, to check whether it works in general
+        # TODO: Have received model message depend on OTHER player.
+        # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
+        # model_path = "static " + "persuasion/fig_test_10.jpg"
+        model_path = "/static/persuasion/fig_test_{}.jpg".format(player.message_received)
+
+        return{
+            'model_path':model_path
+        }
 
 class ThoughtProcessPersuader(Page):
     form_model = 'player'
