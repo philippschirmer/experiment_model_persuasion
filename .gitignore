@@ -13,6 +13,7 @@
 *.idx
 *.ilg
 *.ind
+*.jpg
 *.lof
 *.log
 *.lot
@@ -22,6 +23,7 @@
 *.out
 *.pdf
 *.pdfsync
+*.png
 *.prj
 *.pyc
 *.run.xml

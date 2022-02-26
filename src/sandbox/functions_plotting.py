@@ -66,7 +66,7 @@ def gen_model_graphs_trunc(data, model_space, trunc, wd):
             ),
         )
 
-        fig.write_image(wd + "/img/fig_test_{}.jpg".format(shift_point))
+        fig.write_image(wd / "img" / "fig_test_{}.jpg".format(shift_point))
     return None
 
 
@@ -130,7 +130,7 @@ def gen_model_graphs_full(data, model_space, hyperparams, wd):
             ),
         )
 
-        fig.write_image(wd + "/img/fig_test_{}.jpg".format(shift_point))
+        fig.write_image(wd / "img" / "fig_test_{}.jpg".format(shift_point))
     return None
 
 
@@ -161,7 +161,7 @@ def gen_neutral_graphs_trunc(data, trunc, wd):
     fig.update_layout(plot_bgcolor='#fff' )
 
 
-    fig.write_image(wd + "/img/neutral_graph_test.jpg")
+    fig.write_image(wd / "img" / "neutral_graph_test.jpg")
     # TODO: Path library syntax.
     return None
 
@@ -192,7 +192,7 @@ def gen_neutral_graphs_full(data, wd):
     fig.update_layout(plot_bgcolor='#fff' )
 
 
-    fig.write_image(wd + "/img/neutral_graph_test.jpg")
+    fig.write_image(wd / "img" / "neutral_graph_test.jpg")
 
 # TODO: Merge/Implement path definition of saving directory
 #        fig.write_image(par_par_cwd / "otree_model_persuasion" / "_static" / "persuasion" / "fig_test_{}.jpg".format(shift_point))

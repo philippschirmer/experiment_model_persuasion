@@ -4,13 +4,15 @@
 import numpy as np
 import pandas as pd
 
-obs = 80
+obs = 100
 
 model_space = np.arange(1,obs,dtype=int)
 
 model_space.shape
 
 model_prior = np.full(model_space.shape,1/obs)
+
+# TODO: Make model prior "complete"; include switching prob and trend sign?
 
 def gen_random_model(model_space, model_prior):
     '''
@@ -43,7 +45,7 @@ def gen_random_model(model_space, model_prior):
 
 # TODO: Make sure to have correct definition of model.
 
-def generate_data(model, p, trend_abs, var_errors, obs, seed):
+def generate_data(model_switching_point, model_change_sign, trend_abs, var_errors, obs, seed):
     ''' Generates the data for a specified model, specified parameters and hyperparameters
         
         Inputs:
@@ -71,15 +73,18 @@ def generate_data(model, p, trend_abs, var_errors, obs, seed):
 
 
     # Set the shifting point.
-    trend_shift = model
+    trend_shift = model_switching_point
 
 
     trend = np.array([0,0])
 
-    draw_rand_bin = rng.binomial(1, p, size=None)
-    if draw_rand_bin == 0:
+    # TODO: To be outsourced into model generation process. (?)
+    #draw_rand_bin = rng.binomial(1, p, size=None)
+
+    # TODO: Make 
+    if model_change_sign == "pos_to_neg":
         trend = np.array([trend_abs,-trend_abs])
-    elif draw_rand_bin == 1:
+    elif model_change_sign == "neg_to_pos":
         trend = np.array([trend_abs,-trend_abs]) 
 
 
@@ -92,10 +97,7 @@ def generate_data(model, p, trend_abs, var_errors, obs, seed):
         elif i > trend_shift:
             trend_with_shift[i] = trend[1]
 
-    trend_with_shift
-
-
-    # run cumulative trend, errors
+    # generate cumulative trend, errors
 
     cum_sum_trend = np.cumsum(trend_with_shift)
 
@@ -103,7 +105,7 @@ def generate_data(model, p, trend_abs, var_errors, obs, seed):
 
     # shift y upwards by 100 to "normalize" stock
     y = cum_sum_trend + cum_sum_errors + 100
-
+    # TODO: Better upwards shift by 100 + minimal value observed?
 
     stacked_array= np.stack((t, y), axis=-1)
     data = pd.DataFrame(stacked_array).rename(columns={0: "Time", 1: "Stock price"})
