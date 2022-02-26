@@ -162,7 +162,7 @@ def gen_neutral_graphs_trunc(data, trunc, wd):
 
 
     fig.write_image(wd + "/img/neutral_graph_test.jpg")
-
+    # TODO: Path library syntax.
     return None
 
 
@@ -194,5 +194,7 @@ def gen_neutral_graphs_full(data, wd):
 
     fig.write_image(wd + "/img/neutral_graph_test.jpg")
 
+# TODO: Merge/Implement path definition of saving directory
+#        fig.write_image(par_par_cwd / "otree_model_persuasion" / "_static" / "persuasion" / "fig_test_{}.jpg".format(shift_point))
     return None
 
