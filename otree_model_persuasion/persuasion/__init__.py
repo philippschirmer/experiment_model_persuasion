@@ -387,15 +387,6 @@ class DecisionReceiver(Page):
         return player.role() == 'receiver'
 
 
-    def vars_for_template(group):
-        # group_model_path = "/static/persuasion/fig_test_{}.jpg".format(group.model_message_1)
-        # group_model_path = "/static/persuasion/fig_test_10.jpg"
-
-
-        return{
-            'group_model_path':group_model_path
-        }
-
     def vars_for_template(player):
         # Just using age right now, to check whether it works in general
         # TODO: Have received model message depend on OTHER player.
