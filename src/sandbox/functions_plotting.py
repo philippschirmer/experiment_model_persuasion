@@ -1,7 +1,7 @@
-# TODO: Function that generates "neutral" graphs, i.e. graphs that don't have any model message yet
-# To be used in the first part of the experiment, where the receiver decides without observing data.
-
-# TODO: Make sure graphs only use partial data that is observable to participants.
+# TODO: Check everything is running as expected
+# TODO: Make Docstrings pretty once functions are (essentially) finished.
+# Functions_plotting collects the different functions that generate graphs for both senders and receivers
+# in the experiment.
 
 import numpy as np
 import plotly.express as px
@@ -9,7 +9,7 @@ import plotly.express as px
 import pandas as pd
 
 
-def gen_model_graphs_trunc(data, model_space, trunc, wd):
+def gen_model_graphs_trunc(data, model_space, trunc, target_directory, data_name):
     '''TODO: Function that generates "model" graphs, i.e. graphs that feature a model message.
     To be used in the second part of the experiment, where the receiver decides with observing the model.
     
@@ -66,14 +66,14 @@ def gen_model_graphs_trunc(data, model_space, trunc, wd):
             ),
         )
 
-        fig.write_image(wd / "img" / "fig_test_{}.jpg".format(shift_point))
+        fig.write_image( target_directory / "model_graph_trunc_{}_{}.jpg".format(data_name, i))
     return None
 
 
 
 
 
-def gen_model_graphs_full(data, model_space, hyperparams, wd):
+def gen_model_graphs_full(data, model_space, target_directory, data_name):
     '''TODO: Function that generates "neutral" graphs, i.e. graphs that don't have any model message yet
     To be used in the first part of the experiment, where the receiver decides without observing data.
     
@@ -130,12 +130,14 @@ def gen_model_graphs_full(data, model_space, hyperparams, wd):
             ),
         )
 
-        fig.write_image(wd / "img" / "fig_test_{}.jpg".format(shift_point))
+        # fig.write_image(wd / "img" / "fig_test_{}.jpg".format(shift_point))
+
+        fig.write_image( target_directory / "model_graph_full_{}_{}.jpg".format(data_name, i))
     return None
 
 
 
-def gen_neutral_graphs_trunc(data, trunc, wd):
+def gen_neutral_graphs_trunc(data, trunc, target_directory, data_name):
     '''TODO: Function that generates "neutral" graphs, i.e. graphs that don't have any model message yet
     To be used in the first part of the experiment, where the receiver decides without observing data.
     
@@ -161,13 +163,13 @@ def gen_neutral_graphs_trunc(data, trunc, wd):
     fig.update_layout(plot_bgcolor='#fff' )
 
 
-    fig.write_image(wd / "img" / "neutral_graph_test.jpg")
+    fig.write_image( target_directory / "neutral_graph_trunc_{}.jpg".format(data_name))
     # TODO: Path library syntax.
     return None
 
 
 
-def gen_neutral_graphs_full(data, wd):
+def gen_neutral_graphs_full(data, target_directory, data_name):
     '''TODO: Function that generates "neutral" graphs, i.e. graphs that don't have any model message yet
     To be used in the first part of the experiment, where the receiver decides without observing data.
     
@@ -191,10 +193,6 @@ def gen_neutral_graphs_full(data, wd):
     fig.update_layout(paper_bgcolor='#fff' )
     fig.update_layout(plot_bgcolor='#fff' )
 
-
-    fig.write_image(wd / "img" / "neutral_graph_test.jpg")
-
-# TODO: Merge/Implement path definition of saving directory
-#        fig.write_image(par_par_cwd / "otree_model_persuasion" / "_static" / "persuasion" / "fig_test_{}.jpg".format(shift_point))
+    fig.write_image( target_directory / "neutral_graph_full_{}.jpg".format(data_name))
     return None
 
