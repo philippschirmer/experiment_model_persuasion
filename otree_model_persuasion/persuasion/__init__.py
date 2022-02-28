@@ -1,3 +1,4 @@
+from django.dispatch import receiver
 from numpy import number
 from otree.api import *
 import random
@@ -13,7 +14,8 @@ Constant values for game.
 """
 class C(BaseConstants): #do not vary from player to player
     NAME_IN_URL = 'persuasion'
-    PLAYERS_PER_GROUP = None
+    PLAYERS_PER_GROUP = 2
+    # PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     #AGE_MIN = cu(18)
     #AGE_MAX = cu(80)
@@ -181,13 +183,20 @@ class Player(BasePlayer):
     # ],
     # label='Would you like to buy, or sell the stock?',
     # widget=widgets.RadioSelect,
-    # blank=True # FOR TESTING...quitar despues 
+    # blank=True # FOR TESTING...quitar despues TODO
     # )
     receiver_decision_1 = make_field('Would you like to buy, or sell the stock?')
     receiver_decision_2 = make_field('Would you like to buy, or sell the stock?')
     receiver_decision_3 = make_field('Would you like to buy, or sell the stock?')
     receiver_decision_4 = make_field('Would you like to buy, or sell the stock?')
     receiver_decision_5 = make_field('Would you like to buy, or sell the stock?')
+
+    buys = models.IntegerField(initial=0)
+    correct_choices = models.IntegerField(initial=0)
+
+
+
+
 #def creating_session(subsession):
 #    for player in subsession.get_players():
 #        if player.role == C.PERSUADER_ROLE:
@@ -219,26 +228,64 @@ def set_model_message_received(group):
 
 
 # Calculate the players' payoffs at the end of the game.
+
 def set_payoffs(group):
     players = group.get_players()
 
     # Define when a buy/sell are the ex post "right" decision.
-
-    # Persuaders gets payoffs depending on role (biased or aligned),
-    # and decisions of receivers
-    player_receiver = players[0]
-
-    # Persuaders get payoff if their predictions are correct.
-    #
+    # TODO: Verify ex-post correct, ideally find way to load ex_post_correct from
+    # data generating processes. 
+    stock_price_100 = [100, 100, 100, 100, 100]
+    ex_post_correct = ["Buy", "Sell", "Buy", "Sell", "Buy"]
 
     for player in players:
-        player.payoff = C.ENDOWMENT + 5
+        receiver_decision_1 = player.field_maybe_none('receiver_decision_1')
+        receiver_decision_2 = player.field_maybe_none('receiver_decision_2')
+        receiver_decision_3 = player.field_maybe_none('receiver_decision_3')
+        receiver_decision_4 = player.field_maybe_none('receiver_decision_4')
+        receiver_decision_5 = player.field_maybe_none('receiver_decision_5')
 
-    contributions = [p.contribution for p in players]
-    group.total_contribution = sum(contributions)
-    group.individual_share = group.total_contribution * C.MULTIPLIER / C.PLAYERS_PER_GROUP
+
+        player.payoff = cu(0)
+
+        receiver_choices_made = [receiver_decision_1,
+                                        receiver_decision_2,
+                                        receiver_decision_3,
+                                        receiver_decision_4,
+                                        receiver_decision_5]
+
+        # count correct choices made
+        player.correct_choices = 0
+        for i in range(0,len(receiver_choices_made)):
+           if receiver_choices_made[i] == ex_post_correct[i]:
+               player.correct_choices = player.correct_choices + 1
+               
+        # count player buys made
+        player.buys = 0
+        for i in range(0,len(receiver_choices_made)):
+            if receiver_choices_made[i] == "Buy":
+                player.buys = player.buys + 1
+        
+        if player.id_in_group > 1:
+            player.payoff = cu(player.correct_choices * 100)
+
+        
+    correct_choices = [player.correct_choices for player in players]
+    buys = [player.buys for player in players]
+
+    total_correct_choices = sum(correct_choices)
+    print("the total correct choices are {}".format(total_correct_choices))
+    total_buys = sum(buys)
+    print("the total buys are {}".format(total_buys))
+
+
     for player in players:
-        player.payoff = C.ENDOWMENT - player.contribution + group.individual_share
+        if player.id_in_group == 1 and player.treatment == 0:
+            player.payoff = cu( total_correct_choices * 100)
+        if player.id_in_group ==1 and player.treatment == 1:
+            player.payoff = cu( total_buys * 200)
+
+
 
 # PAGES
 
@@ -254,6 +301,7 @@ class Introduction(Page):
 General survey page to collect demographic data.
 """
 class Demographics(Page):
+
     form_model = 'player'
     form_fields = [
     'age', 
@@ -781,7 +829,19 @@ class EffortTask(Page):
     def is_displayed(player):
         return player.role() == 'receiver'
 
-page_sequence = [Introduction, 
+
+class WaitForResults(WaitPage):
+    after_all_players_arrive = set_payoffs
+
+class Results(Page):
+    @staticmethod
+    def vars_for_template(player):
+        return {
+            "player.payoff":player.payoff
+        }
+
+
+page_sequence = [Introduction,
                 Demographics, 
                 PersuaderPage, 
                 BiasedPage, 
@@ -809,4 +869,6 @@ page_sequence = [Introduction,
                 DecisionReceiver5,
                 Wait,
                 ThoughtProcessPersuader,
+                WaitForResults,
+                Results,
                 ] 
