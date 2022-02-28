@@ -33,7 +33,10 @@ class C(BaseConstants): #do not vary from player to player
         [4, 'I moderately agree'],
         [5, 'I strongly agree'],
     ]
-    
+    FinancialChoices= [
+    ['Buy', 'Buy'], 
+    ['Sell', 'Sell']
+    ]
 
 class Subsession(BaseSubsession):
     pass
@@ -55,9 +58,7 @@ Functions for player fields
 
 def make_field(label):
     return models.StringField(
-        choices = [
-            ['Buy', 'Buy'], 
-            ['Sell', 'Sell']],
+        choices = C.FinancialChoices,
         label = label,
         widget = widgets.RadioSelect)
 
@@ -78,12 +79,10 @@ class Player(BasePlayer):
     )
     finance = models.IntegerField(
         label="Please rate your previous financial knowledge on a percentage scale between 0 and 100.",
-        #min=0,
-        #max=100,
         blank=True,
         initial=None
     )
-    treatment = models.BooleanField(initial=True) #esto a la final es con random.choice([True, False])
+    treatment = models.BooleanField(initial=True) #esto a la final es con random.choice([True, False]) TODO
     def role(player):
         if player.id_in_group == 1:
             return 'persuader'
@@ -185,6 +184,12 @@ class Player(BasePlayer):
     # widget=widgets.RadioSelect,
     # blank=True # FOR TESTING...quitar despues TODO
     # )
+    receiver_decision_neutral_1 = make_field('Would you like to buy, or sell the stock?')
+    receiver_decision_neutral_2 = make_field('Would you like to buy, or sell the stock?')
+    receiver_decision_neutral_3 = make_field('Would you like to buy, or sell the stock?')
+    receiver_decision_neutral_4 = make_field('Would you like to buy, or sell the stock?')
+    receiver_decision_neutral_5 = make_field('Would you like to buy, or sell the stock?')
+
     receiver_decision_1 = make_field('Would you like to buy, or sell the stock?')
     receiver_decision_2 = make_field('Would you like to buy, or sell the stock?')
     receiver_decision_3 = make_field('Would you like to buy, or sell the stock?')
@@ -549,7 +554,7 @@ Pages to keep receiver busy while persuader makes chart choiced.
 class DecisionReceiverNeutral1(Page):
     template_name = 'persuasion/ReceiverBusy.html'
     form_model = 'player'
-    form_fields = ['receiver_decision_1']
+    form_fields = ['receiver_decision_neutral_1']
 
     @staticmethod
     def is_displayed(player):
@@ -566,7 +571,7 @@ class DecisionReceiverNeutral1(Page):
 class DecisionReceiverNeutral2(Page):
     template_name = 'persuasion/ReceiverBusy.html'
     form_model = 'player'
-    form_fields = ['receiver_decision_1']
+    form_fields = ['receiver_decision_neutral_2']
 
     @staticmethod
     def is_displayed(player):
@@ -583,7 +588,7 @@ class DecisionReceiverNeutral2(Page):
 class DecisionReceiverNeutral3(Page):
     template_name = 'persuasion/ReceiverBusy.html'
     form_model = 'player'
-    form_fields = ['receiver_decision_1']
+    form_fields = ['receiver_decision_neutral_3']
 
     @staticmethod
     def is_displayed(player):
@@ -600,7 +605,7 @@ class DecisionReceiverNeutral3(Page):
 class DecisionReceiverNeutral4(Page):
     template_name = 'persuasion/ReceiverBusy.html'
     form_model = 'player'
-    form_fields = ['receiver_decision_1']
+    form_fields = ['receiver_decision_neutral_4']
 
     @staticmethod
     def is_displayed(player):
@@ -617,7 +622,7 @@ class DecisionReceiverNeutral4(Page):
 class DecisionReceiverNeutral5(Page):
     template_name = 'persuasion/ReceiverBusy.html'
     form_model = 'player'
-    form_fields = ['receiver_decision_1']
+    form_fields = ['receiver_decision_neutral_5']
 
     @staticmethod
     def is_displayed(player):
