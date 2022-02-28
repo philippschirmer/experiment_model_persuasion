@@ -69,7 +69,7 @@ class Player(BasePlayer):
         blank=True,
         initial=None
     )
-    treatment = models.BooleanField(initial=False)
+    treatment = models.BooleanField(initial=True) #esto a la final es con random.choice([True, False])
     def role(player):
         if player.id_in_group == 1:
             return 'persuader'
@@ -86,6 +86,7 @@ class Player(BasePlayer):
     item1A = models.IntegerField(
         label = '1. If the receiver buys the stock, do you expect to win an extra payoff?',
         choices = C.BinaryChoices,
+        widget=widgets.RadioSelect,
         blank=True
     )
     item2A = models.IntegerField(
@@ -129,12 +130,12 @@ class Player(BasePlayer):
         widget = widgets.RadioSelect,
         blank=True
     )
-    item1D = models.IntegerField(
+    item2C = models.IntegerField(
         label = 'It was easy to understand the general purpose of the game',
         widget=widgets.RadioSelect,
         choices=C.CathegoricalChoices
     )
-    item2D = models.IntegerField(
+    item3C = models.IntegerField(
         label = 'I did not have troubles understand the selection of regression models',
         widget=widgets.RadioSelect,
         choices=C.CathegoricalChoices
@@ -193,6 +194,7 @@ def set_model_message_received(group):
     model_message_test_3 = player_receiver.model_message_3
     model_message_test_4 = player_receiver.model_message_4
     model_message_test_5 = player_receiver.model_message_5
+
     for player in players:
         player.message_received_1 = model_message_test_1
         player.message_received_2 = model_message_test_2
@@ -669,7 +671,7 @@ class DecisionReceiver3(Page):
         # TODO: Have received model message depend on OTHER player.
         # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
         # model_path = "static " + "persuasion/fig_test_10.jpg"
-        model_path = "/static/persuasion/fig_test_{}.jpg".format(player.message_received)
+        model_path = "/static/persuasion/model_graph_trunc_3_{}.jpg".format(player.message_received_3)
 
         return{
             'model_path':model_path
@@ -692,11 +694,12 @@ class DecisionReceiver4(Page):
         # TODO: Have received model message depend on OTHER player.
         # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
         # model_path = "static " + "persuasion/fig_test_10.jpg"
-        model_path = "/static/persuasion/fig_test_{}.jpg".format(player.message_received)
+        model_path = "/static/persuasion/model_graph_trunc_4_{}.jpg".format(player.message_received_4)
 
         return{
             'model_path':model_path
         }
+
 
 class DecisionReceiver5(Page):
     #page_number = 2 (for figure recognition later)
@@ -715,17 +718,18 @@ class DecisionReceiver5(Page):
         # TODO: Have received model message depend on OTHER player.
         # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
         # model_path = "static " + "persuasion/fig_test_10.jpg"
-        model_path = "/static/persuasion/fig_test_{}.jpg".format(player.message_received)
+        model_path = "/static/persuasion/model_graph_trunc_5_{}.jpg".format(player.message_received_5)
 
         return{
             'model_path':model_path
         }
 
+
 class ThoughtProcessPersuader(Page):
     form_model = 'player'
     form_fields = [
-    'item1D',
-    'item2D'
+    'item2C',
+    'item3C'
     ]
     @staticmethod
     def is_displayed(player):
