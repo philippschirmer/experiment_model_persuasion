@@ -97,19 +97,11 @@ The purpose of this slide is to test the implementation of a slider.
 </style>
 
 
-
-
-
-
-<img src="{{ static 'sandbox/Rplot_1_1.png'}}" id="myImage" />
+<img src = "{{init_model}}" id="myImage" />
 
 <div class="slidecontainer">
-    <input type="range" placeholder="Enter some number from 1 to 5" min="1" max="79" value="1" class="slider" id="myRange" name="placeholder">
+    <input type="range" placeholder="Enter some number from 1 to 80" min="1" max="79" value="1" class="slider" id="myRange" name="model_message_1">
   </div>
-
-<div class="slidecontainer">
-  <input type="range" min="1" max="79" placeholder="Enter some number from 1 to 5" value="50" class="slider" id="myRange" name="model_message_1"
-</div>
 
 You have selected the model message: <p  id="values"></p> 
 
@@ -136,12 +128,12 @@ function updatePicture(e) {
 	var image = document.getElementById('myImage');
 
   const val = document.querySelector('input').value;
-  const js_image_path = '/static/persuasion/fig_test_' + val + '.jpg';
+  const js_image_path = js_vars.model_path_incomplete + val + '.jpg';
 
-
-  myImage.src = "{{ static 'persuasion/fig_test_0.jpg'}}";
 
   myImage.src = js_image_path;
+
+  myRange.name = js_vars.slider_name;
 
 }
 

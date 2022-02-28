@@ -47,6 +47,18 @@ class Group(BaseGroup):
     #     for player in players:
     #         player.message_received = model_message_test[0]
 
+'''
+Functions for player fields
+'''
+
+def make_field(label):
+    return models.StringField(
+        choices = [
+            ['Buy', 'Buy'], 
+            ['Sell', 'Sell']],
+        label = label,
+        widget = widgets.RadioSelect)
+
 class Player(BasePlayer):
     age = models.IntegerField(
         label='What is your age?',
@@ -69,7 +81,7 @@ class Player(BasePlayer):
         blank=True,
         initial=None
     )
-    treatment = models.BooleanField(initial=False)
+    treatment = models.BooleanField(initial=True) #esto a la final es con random.choice([True, False])
     def role(player):
         if player.id_in_group == 1:
             return 'persuader'
@@ -86,6 +98,7 @@ class Player(BasePlayer):
     item1A = models.IntegerField(
         label = '1. If the receiver buys the stock, do you expect to win an extra payoff?',
         choices = C.BinaryChoices,
+        widget=widgets.RadioSelect,
         blank=True
     )
     item2A = models.IntegerField(
@@ -129,12 +142,12 @@ class Player(BasePlayer):
         widget = widgets.RadioSelect,
         blank=True
     )
-    item1D = models.IntegerField(
+    item2C = models.IntegerField(
         label = 'It was easy to understand the general purpose of the game',
         widget=widgets.RadioSelect,
         choices=C.CathegoricalChoices
     )
-    item2D = models.IntegerField(
+    item3C = models.IntegerField(
         label = 'I did not have troubles understand the selection of regression models',
         widget=widgets.RadioSelect,
         choices=C.CathegoricalChoices
@@ -149,19 +162,32 @@ class Player(BasePlayer):
     item5E = models.IntegerField()
 
     model_message_1 = models.IntegerField()
-    message_received = models.IntegerField()
+    model_message_2 = models.IntegerField()
+    model_message_3 = models.IntegerField()
+    model_message_4 = models.IntegerField()
+    model_message_5 = models.IntegerField()
 
-    receiver_decision_1 = models.StringField(
-    choices=[
-            ['Buy', 'Buy'], 
-            ['Sell', 'Sell']            
-    ],
-    label='Would you like to buy, or sell the stock?',
-    widget=widgets.RadioSelect,
-    blank=True # FOR TESTING...quitar despues 
-    )
+    message_received_1 = models.IntegerField()
+    message_received_2 = models.IntegerField()
+    message_received_3 = models.IntegerField()
+    message_received_4 = models.IntegerField()
+    message_received_5 = models.IntegerField()
 
-
+    
+    # receiver_decision_1 = models.StringField(
+    # choices=[
+    #         ['Buy', 'Buy'], 
+    #         ['Sell', 'Sell']            
+    # ],
+    # label='Would you like to buy, or sell the stock?',
+    # widget=widgets.RadioSelect,
+    # blank=True # FOR TESTING...quitar despues 
+    # )
+    receiver_decision_1 = make_field('Would you like to buy, or sell the stock?')
+    receiver_decision_2 = make_field('Would you like to buy, or sell the stock?')
+    receiver_decision_3 = make_field('Would you like to buy, or sell the stock?')
+    receiver_decision_4 = make_field('Would you like to buy, or sell the stock?')
+    receiver_decision_5 = make_field('Would you like to buy, or sell the stock?')
 #def creating_session(subsession):
 #    for player in subsession.get_players():
 #        if player.role == C.PERSUADER_ROLE:
@@ -178,9 +204,18 @@ class Player(BasePlayer):
 def set_model_message_received(group):
     players = group.get_players()
     player_receiver = players[0]
-    model_message_test = player_receiver.model_message_1
+    model_message_test_1 = player_receiver.model_message_1
+    model_message_test_2 = player_receiver.model_message_2
+    model_message_test_3 = player_receiver.model_message_3
+    model_message_test_4 = player_receiver.model_message_4
+    model_message_test_5 = player_receiver.model_message_5
+
     for player in players:
-        player.message_received = model_message_test
+        player.message_received_1 = model_message_test_1
+        player.message_received_2 = model_message_test_2
+        player.message_received_3 = model_message_test_3
+        player.message_received_4 = model_message_test_4
+        player.message_received_5 = model_message_test_5
 
 
 # Calculate the players' payoffs at the end of the game.
@@ -204,7 +239,6 @@ def set_payoffs(group):
     group.individual_share = group.total_contribution * C.MULTIPLIER / C.PLAYERS_PER_GROUP
     for player in players:
         player.payoff = C.ENDOWMENT - player.contribution + group.individual_share
-
 
 # PAGES
 
@@ -315,13 +349,144 @@ class AlignedPage_Q(Page):
 Page for decision making for the persuader (does it matter if he/she is aligned or biased?)
 
 """
-class DecisionPersuader(Page):
+class DecisionPersuader1(Page):
+    template_name = "persuasion/DecisionPersuader.html"
     form_model = 'player'
     form_fields = ['model_message_1']
     @staticmethod
     def is_displayed(player):
         return player.role() == 'persuader'
+    # def var_for_template(player):
+    #     graph_number = 1
+    #     model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+    #     # Incomplete model path, to be extended with chosen model message (slider in html/JS)
+    def vars_for_template(player):
+        graph_number = 1
+        init_model = "/static/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
+        return{
+            'init_model': init_model
+        }
 
+    @staticmethod
+    def js_vars(player):
+        graph_number = 1
+        #model_path_init = "/static/persuasion/model_graph_trunc_{}_0".format(graph_number)
+        model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+        slider_name = "model_message_{}".format(graph_number)
+        return dict(
+            model_path_incomplete = model_path_incomplete,
+            slider_name = slider_name
+        )
+
+class DecisionPersuader2(Page):
+    template_name = "persuasion/DecisionPersuader.html"
+    form_model = 'player'
+    form_fields = ['model_message_2']
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == 'persuader'
+    # def var_for_template(player):
+    #     graph_number = 2
+    #     model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+    #     # Incomplete model path, to be extended with chosen model message (slider in html/JS)
+    def vars_for_template(player):
+        graph_number = 2
+        init_model = "/static/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
+        return{
+            'init_model': init_model
+        }
+
+    @staticmethod
+    def js_vars(player):
+        graph_number = 2
+        model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+        slider_name = "model_message_{}".format(graph_number)
+        return dict(
+            model_path_incomplete = model_path_incomplete,
+            slider_name = slider_name
+        )
+
+class DecisionPersuader3(Page):
+    template_name = "persuasion/DecisionPersuader.html"
+    form_model = 'player'
+    form_fields = ['model_message_3']
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == 'persuader'
+    # def var_for_template(player):
+    #     graph_number = 2
+    #     model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+    #     # Incomplete model path, to be extended with chosen model message (slider in html/JS)
+    def vars_for_template(player):
+        graph_number = 3
+        init_model = "/static/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
+        return{
+            'init_model': init_model
+        }
+    @staticmethod
+    def js_vars(player):
+        graph_number = 3
+        model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+        slider_name = "model_message_{}".format(graph_number)
+        return dict(
+            model_path_incomplete = model_path_incomplete,
+            slider_name = slider_name
+        )
+
+class DecisionPersuader4(Page):
+    template_name = "persuasion/DecisionPersuader.html"
+    form_model = 'player'
+    form_fields = ['model_message_4']
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == 'persuader'
+    # def var_for_template(player):
+    #     graph_number = 2
+    #     model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+    #     # Incomplete model path, to be extended with chosen model message (slider in html/JS)
+    def vars_for_template(player):
+        graph_number = 4
+        init_model = "/static/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
+        return{
+            'init_model': init_model
+        }
+    @staticmethod
+    def js_vars(player):
+        graph_number = 4
+        model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+        slider_name = "model_message_{}".format(graph_number)
+        return dict(
+            model_path_incomplete = model_path_incomplete,
+            slider_name = slider_name
+        )
+
+class DecisionPersuader5(Page):
+    template_name = "persuasion/DecisionPersuader.html"
+    form_model = 'player'
+    form_fields = ['model_message_5']
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == 'persuader'
+    # def var_for_template(player):
+    #     graph_number = 2
+    #     model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+    #     # Incomplete model path, to be extended with chosen model message (slider in html/JS)
+    def vars_for_template(player):
+        graph_number = 5
+        init_model = "/static/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
+        return{
+            'init_model': init_model
+        }
+
+    @staticmethod
+    def js_vars(player):
+        graph_number = 5
+        model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+        slider_name = "model_message_{}".format(graph_number)
+        return dict(
+            model_path_incomplete = model_path_incomplete,
+            slider_name = slider_name
+        )
 """
 Landing page if participant is randomly selected as aligned persuader.
 """
@@ -331,12 +496,92 @@ class AlignedPage(Page):
         return player.bias() == 'aligned'
 
 """
-Page to keep receiver busy while persuader makes chart choiced.
+Pages to keep receiver busy while persuader makes chart choiced.
 """
-class ReceiverBusy(Page):
+class DecisionReceiverNeutral1(Page):
+    template_name = 'persuasion/ReceiverBusy.html'
+    form_model = 'player'
+    form_fields = ['receiver_decision_1']
+
     @staticmethod
     def is_displayed(player):
         return player.role() == 'receiver'
+
+    def vars_for_template(player):
+        graph_number = 1
+        model_path = "/static/persuasion/neutral_graph_trunc_{}.jpg".format(graph_number)
+
+        return{
+            'model_path':model_path
+        }
+
+class DecisionReceiverNeutral2(Page):
+    template_name = 'persuasion/ReceiverBusy.html'
+    form_model = 'player'
+    form_fields = ['receiver_decision_1']
+
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == 'receiver'
+
+    def vars_for_template(player):
+        graph_number = 2
+        model_path = "/static/persuasion/neutral_graph_trunc_{}.jpg".format(graph_number)
+
+        return{
+            'model_path':model_path
+        }
+
+class DecisionReceiverNeutral3(Page):
+    template_name = 'persuasion/ReceiverBusy.html'
+    form_model = 'player'
+    form_fields = ['receiver_decision_1']
+
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == 'receiver'
+
+    def vars_for_template(player):
+        graph_number = 3
+        model_path = "/static/persuasion/neutral_graph_trunc_{}.jpg".format(graph_number)
+
+        return{
+            'model_path':model_path
+        }
+
+class DecisionReceiverNeutral4(Page):
+    template_name = 'persuasion/ReceiverBusy.html'
+    form_model = 'player'
+    form_fields = ['receiver_decision_1']
+
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == 'receiver'
+
+    def vars_for_template(player):
+        graph_number = 4
+        model_path = "/static/persuasion/neutral_graph_trunc_{}.jpg".format(graph_number)
+
+        return{
+            'model_path':model_path
+        }
+
+class DecisionReceiverNeutral5(Page):
+    template_name = 'persuasion/ReceiverBusy.html'
+    form_model = 'player'
+    form_fields = ['receiver_decision_1']
+
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == 'receiver'
+
+    def vars_for_template(player):
+        graph_number = 5
+        model_path = "/static/persuasion/neutral_graph_trunc_{}.jpg".format(graph_number)
+
+        return{
+            'model_path':model_path
+        }
 
 """
 Wait page.
@@ -377,9 +622,34 @@ class ReceiverPage_Q(Page):
     def is_displayed(player):
         return player.role() == 'receiver'
 
-class DecisionReceiver(Page):
+class DecisionReceiver1(Page):
+    #page_number = 1 (for figure recognition later)
+    template_name = 'persuasion/DecisionReceiver.html'
     form_model = 'player'
     form_fields = ['receiver_decision_1']
+
+
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == 'receiver'
+
+
+    def vars_for_template(player):
+        #graph_number = 1
+        # Just using age right now, to check whether it works in general
+        # TODO: Have received model message depend on OTHER player.
+        # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
+        # model_path = "static " + "persuasion/fig_test_10.jpg"
+        model_path = "/static/persuasion/model_graph_trunc_1_{}.jpg".format(player.message_received_1)
+        return{
+            'model_path':model_path
+        }
+
+class DecisionReceiver2(Page):
+    #page_number = 2 (for figure recognition later)
+    template_name = 'persuasion/DecisionReceiver.html'
+    form_model = 'player'
+    form_fields = ['receiver_decision_2']
 
 
     @staticmethod
@@ -392,17 +662,88 @@ class DecisionReceiver(Page):
         # TODO: Have received model message depend on OTHER player.
         # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
         # model_path = "static " + "persuasion/fig_test_10.jpg"
-        model_path = "/static/persuasion/fig_test_{}.jpg".format(player.message_received)
+        model_path = "/static/persuasion/model_graph_trunc_2_{}.jpg".format(player.message_received_2)
 
         return{
             'model_path':model_path
         }
 
+class DecisionReceiver3(Page):
+    #page_number = 2 (for figure recognition later)
+    template_name = 'persuasion/DecisionReceiver.html'
+    form_model = 'player'
+    form_fields = ['receiver_decision_3']
+
+
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == 'receiver'
+
+
+    def vars_for_template(player):
+        # Just using age right now, to check whether it works in general
+        # TODO: Have received model message depend on OTHER player.
+        # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
+        # model_path = "static " + "persuasion/fig_test_10.jpg"
+        model_path = "/static/persuasion/model_graph_trunc_3_{}.jpg".format(player.message_received_3)
+
+        return{
+            'model_path':model_path
+        }
+
+class DecisionReceiver4(Page):
+    #page_number = 2 (for figure recognition later)
+    template_name = 'persuasion/DecisionReceiver.html'
+    form_model = 'player'
+    form_fields = ['receiver_decision_4']
+
+
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == 'receiver'
+
+
+    def vars_for_template(player):
+        # Just using age right now, to check whether it works in general
+        # TODO: Have received model message depend on OTHER player.
+        # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
+        # model_path = "static " + "persuasion/fig_test_10.jpg"
+        model_path = "/static/persuasion/model_graph_trunc_4_{}.jpg".format(player.message_received_4)
+
+        return{
+            'model_path':model_path
+        }
+
+
+class DecisionReceiver5(Page):
+    #page_number = 2 (for figure recognition later)
+    template_name = 'persuasion/DecisionReceiver.html'
+    form_model = 'player'
+    form_fields = ['receiver_decision_5']
+
+
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == 'receiver'
+
+
+    def vars_for_template(player):
+        # Just using age right now, to check whether it works in general
+        # TODO: Have received model message depend on OTHER player.
+        # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
+        # model_path = "static " + "persuasion/fig_test_10.jpg"
+        model_path = "/static/persuasion/model_graph_trunc_5_{}.jpg".format(player.message_received_5)
+
+        return{
+            'model_path':model_path
+        }
+
+
 class ThoughtProcessPersuader(Page):
     form_model = 'player'
     form_fields = [
-    'item1D',
-    'item2D'
+    'item2C',
+    'item3C'
     ]
     @staticmethod
     def is_displayed(player):
@@ -447,13 +788,25 @@ page_sequence = [Introduction,
                 BiasedPage_Q,
                 AlignedPage,
                 AlignedPage_Q,
-                DecisionPersuader, 
+                DecisionPersuader1,
+                DecisionPersuader2,
+                DecisionPersuader3,
+                DecisionPersuader4,
+                DecisionPersuader5, 
                 ReceiverPage,
                 ReceiverPage_Q,
-                ReceiverBusy, 
+                DecisionReceiverNeutral1, 
+                DecisionReceiverNeutral2,
+                DecisionReceiverNeutral3,
+                DecisionReceiverNeutral4,
+                DecisionReceiverNeutral5,
                 EffortTask,
                 Wait,
-                DecisionReceiver,
+                DecisionReceiver1,
+                DecisionReceiver2,
+                DecisionReceiver3,
+                DecisionReceiver4,
+                DecisionReceiver5,
                 Wait,
                 ThoughtProcessPersuader,
                 ] 
