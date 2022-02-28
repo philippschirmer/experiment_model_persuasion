@@ -1,4 +1,4 @@
-from django.dispatch import receiver
+#from django.dispatch import receiver
 from numpy import number
 from otree.api import *
 import random
@@ -10,7 +10,7 @@ Demo of o-Tree Persuasion game
 """
 
 """
-Constant values for game.
+Constant values for game.p
 """
 class C(BaseConstants): #do not vary from player to player
     NAME_IN_URL = 'persuasion'
