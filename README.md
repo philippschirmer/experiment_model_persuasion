@@ -1,2 +1,2 @@
-# experiment_model_persuasion
-Final project for Effective Programming. Experimental design to test effects of model persuasion.
+# Experiment on model persuasion
+Final project for Effective Programming Practices for Economists. Experimental design to test effects of model persuasion.
