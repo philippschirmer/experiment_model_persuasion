@@ -47,6 +47,18 @@ class Group(BaseGroup):
     #     for player in players:
     #         player.message_received = model_message_test[0]
 
+'''
+Functions for player fields
+'''
+
+def make_field(label):
+    return models.StringField(
+        choices = [
+            ['Buy', 'Buy'], 
+            ['Sell', 'Sell']],
+        label = label,
+        widget = widgets.RadioSelect)
+
 class Player(BasePlayer):
     age = models.IntegerField(
         label='What is your age?',
@@ -161,18 +173,21 @@ class Player(BasePlayer):
     message_received_4 = models.IntegerField()
     message_received_5 = models.IntegerField()
 
-
-    receiver_decision_1 = models.StringField(
-    choices=[
-            ['Buy', 'Buy'], 
-            ['Sell', 'Sell']            
-    ],
-    label='Would you like to buy, or sell the stock?',
-    widget=widgets.RadioSelect,
-    blank=True # FOR TESTING...quitar despues 
-    )
-
-
+    
+    # receiver_decision_1 = models.StringField(
+    # choices=[
+    #         ['Buy', 'Buy'], 
+    #         ['Sell', 'Sell']            
+    # ],
+    # label='Would you like to buy, or sell the stock?',
+    # widget=widgets.RadioSelect,
+    # blank=True # FOR TESTING...quitar despues 
+    # )
+    receiver_decision_1 = make_field('Would you like to buy, or sell the stock?')
+    receiver_decision_2 = make_field('Would you like to buy, or sell the stock?')
+    receiver_decision_3 = make_field('Would you like to buy, or sell the stock?')
+    receiver_decision_4 = make_field('Would you like to buy, or sell the stock?')
+    receiver_decision_5 = make_field('Would you like to buy, or sell the stock?')
 #def creating_session(subsession):
 #    for player in subsession.get_players():
 #        if player.role == C.PERSUADER_ROLE:
@@ -224,7 +239,6 @@ def set_payoffs(group):
     group.individual_share = group.total_contribution * C.MULTIPLIER / C.PLAYERS_PER_GROUP
     for player in players:
         player.payoff = C.ENDOWMENT - player.contribution + group.individual_share
-
 
 # PAGES
 
@@ -635,7 +649,7 @@ class DecisionReceiver2(Page):
     #page_number = 2 (for figure recognition later)
     template_name = 'persuasion/DecisionReceiver.html'
     form_model = 'player'
-    form_fields = ['receiver_decision_1']
+    form_fields = ['receiver_decision_2']
 
 
     @staticmethod
@@ -658,7 +672,7 @@ class DecisionReceiver3(Page):
     #page_number = 2 (for figure recognition later)
     template_name = 'persuasion/DecisionReceiver.html'
     form_model = 'player'
-    form_fields = ['receiver_decision_1']
+    form_fields = ['receiver_decision_3']
 
 
     @staticmethod
@@ -681,7 +695,7 @@ class DecisionReceiver4(Page):
     #page_number = 2 (for figure recognition later)
     template_name = 'persuasion/DecisionReceiver.html'
     form_model = 'player'
-    form_fields = ['receiver_decision_1']
+    form_fields = ['receiver_decision_4']
 
 
     @staticmethod
@@ -705,7 +719,7 @@ class DecisionReceiver5(Page):
     #page_number = 2 (for figure recognition later)
     template_name = 'persuasion/DecisionReceiver.html'
     form_model = 'player'
-    form_fields = ['receiver_decision_1']
+    form_fields = ['receiver_decision_5']
 
 
     @staticmethod
