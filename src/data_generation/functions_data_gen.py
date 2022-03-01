@@ -4,6 +4,7 @@
 import numpy as np
 import pandas as pd
 
+
 obs = 100
 
 model_space = np.arange(1,obs,dtype=int)
@@ -46,17 +47,21 @@ def gen_random_model(model_space, model_prior):
 # TODO: Make sure to have correct definition of model.
 
 def generate_data(model_switching_point, model_change_sign, trend_abs, var_errors, obs, seed):
-    ''' Generates the data for a specified model, specified parameters and hyperparameters
+    ''' Generates the data for a specified model, specified parameters, observations and seed.
+        In the current form, the function draws normally distibuted shocks that add noise to the
+        true trend. Trend component is generated according to model and parameter, before being
+        summed with generated noise.
         
         Inputs:
-        model: String, determines which data generating process class to use
-        params: np-array (1D) TODO: Could also be list?, determines the parametrization
-        for the chosen model (e.g. betas, trend, variance )
-        obs: pos. Integer, determines how many data points to generate. 
+        model_switching point: integer - determines switching point of trend component
+        model_change_sign: string - determines whether trend is first positive then negative, or vice versa.
+        trend_abs: float - absolute strength of the trend.
+        var_errors: float - variance of the normal noise / error term.
+        obs: integer, determines how many data points to generate. 
         seed: integer, to replicate certain data generations.
+
         Outputs: 
-        data_generated - np-array ((1+K) D ) of dependent and independent variables of data.
-    
+        data_generated - pd.DataFrame: 2xobs DataFrame with variables "Time" and "Stock price" saved in columns.
     '''
 
     #Generate timeline
@@ -110,7 +115,5 @@ def generate_data(model_switching_point, model_change_sign, trend_abs, var_error
 
     stacked_array= np.stack((t, y), axis=-1)
     data = pd.DataFrame(stacked_array).rename(columns={0: "Time", 1: "Stock price"})
-
-
 
     return data

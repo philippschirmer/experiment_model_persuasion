@@ -1,7 +1,5 @@
-# TODO: Check everything is running as expected
-# TODO: Make Docstrings pretty once functions are (essentially) finished.
-# Functions_plotting collects the different functions that generate graphs for both senders and receivers
-# in the experiment.
+# Description: functions_plotting collects the different functions that generate graphs for both senders and receivers
+# in the model persuasion experiment.
 
 import numpy as np
 import plotly.express as px
@@ -10,19 +8,27 @@ import pandas as pd
 
 
 def gen_model_graphs_trunc(data, model_space, trunc, target_directory, data_name):
-    '''TODO: Function that generates "model" graphs, i.e. graphs that feature a model message.
-    To be used in the second part of the experiment, where the receiver decides with observing the model.
+    '''Function generates graphs of truncated dataset that contain a model message.
+    Using truncated data, the function iterates over the model space, generating one graph per possible model. 
+    The function constructs the graphs and rescales data automatically, before saving the files to the specified directory.
+    In the current form, the model_space is the possible switching point of the time trend, and the fitted model 
+    is a naive linear estimation of the trend before and after the switching point. 
+
+    Truncated model graphs are the central object of choice for the persuader, who picks for a given data a model message.
+    The chosen graph is then sent to the receiver, who makes an investment decision based on the presented graph with model.
     
     Inputs:
-        data: 2D np.array of shape 2xT - Y's and X's to be plotted
-        model_space: 1D np-array: models for which to fit and draw an individual graph, each
-        hyperparams: (optional?) 1D np.array - specifying special settings for the graph generation
-        (TBD)
-        wd: string - working directory where the files are to be saved.
+        data: pandas DataFrame - dataframe that contains column y with dependent variable and x with time trend.
+        model_space: list or list-like: models for which to fit and draw an individual graph each
+        trunc: integer - truncation point determining how much of the data participants observe.
+        target_directory: path - working directory where the files are to be saved.
+        data_name:  string - name or identifier of dataset for graphs to be created.
 
-    Outputs: neutral_graph_`data': picture file with neutral graphs saved to prespecified
-    project folder.
+    Outputs: None. (graph is saved to pre-specified directory, but not returned.)
     '''
+
+
+
   
     for i in model_space:
 
@@ -74,19 +80,25 @@ def gen_model_graphs_trunc(data, model_space, trunc, target_directory, data_name
 
 
 def gen_model_graphs_full(data, model_space, target_directory, data_name):
-    '''TODO: Function that generates "neutral" graphs, i.e. graphs that don't have any model message yet
-    To be used in the first part of the experiment, where the receiver decides without observing data.
+    '''Function that generates "model" graphs of the full dataset, i.e. graphs that contain a model message.
+    Function iterates over the model space, generating one graph per possible model. 
+    The function constructs the graphs and rescales data automatically, before saving the files to the specified directory.
+    In the current form, the model_space s the possible switching point of the time trend, and the fitted model 
+    is a naive linear estimation of the trend before and after the switching point. 
+
+    Full graphs serve as a "resolution" of the persuaders and receiver's problem, revealing the ex post correct decision,
+    and illustrating whether the receiver's message was ex post accurate or not.
     
     Inputs:
-        data: 2D np.array of shape 2xT - Y's and X's to be plotted
-        model_space: 1D np-array: models for which to fit and draw an individual graph, each
-        hyperparams: (optional?) 1D np.array - specifying special settings for the graph generation
-        (TBD)
-        wd: string - working directory where the files are to be saved.
+        data: pandas DataFrame - dataframe that contains column y with dependent variable and x with time trend.
+        model_space: list or list-like: models for which to fit and draw an individual graph each
+        target_directory: path - working directory where the files are to be saved.
+        data_name:  string - name or identifier of dataset for graphs to be created.
 
-    Outputs: neutral_graph_`data': picture file with neutral graphs saved to prespecified
-    project folder.
+    Outputs: None. (graph is saved to pre-specified directory, but not returned.)
     '''
+
+
   
     for i in model_space:
 
@@ -138,19 +150,25 @@ def gen_model_graphs_full(data, model_space, target_directory, data_name):
 
 
 def gen_neutral_graphs_trunc(data, trunc, target_directory, data_name):
-    '''TODO: Function that generates "neutral" graphs, i.e. graphs that don't have any model message yet
+    '''Function that generates "neutral" graphs, i.e. graphs that don't feature a model message.
+    The function constructs the graphs using truncated columns of the DataFrame and rescales data automatically,
+    before saving the files to the specified directory.
+
     To be used in the first part of the experiment, where the receiver decides without observing data.
     
     Inputs:
-        data: 2D np.array of shape 2xT - Y's and X's to be plotted
-        model_space: 1D np-array: models for which to fit and draw an individual graph, each
-        hyperparams: (optional?) 1D np.array - specifying special settings for the graph generation
-        (TBD)
-        wd: string - working directory where the files are to be saved.
+        data: pandas DataFrame - dataframe that contains column y with dependent variable and x with time trend.
+        trunc: integer - truncation point determining how much of the data participants observe.
+        target_directory: path - working directory where the files are to be saved.
+        data_name:  string - name or identifier of dataset for graphs to be created.
 
-    Outputs: neutral_graph_`data': picture file with neutral graphs saved to prespecified
-    project folder.
+    Outputs: None. (graph is saved to target_directory, but not returned.)
     '''
+
+
+
+
+
   
     fig = px.line(data.head(trunc), x="Time", 
                         y="Stock price",
@@ -164,24 +182,21 @@ def gen_neutral_graphs_trunc(data, trunc, target_directory, data_name):
 
 
     fig.write_image( target_directory / "neutral_graph_trunc_{}.jpg".format(data_name))
-    # TODO: Path library syntax.
     return None
 
 
 
 def gen_neutral_graphs_full(data, target_directory, data_name):
-    '''TODO: Function that generates "neutral" graphs, i.e. graphs that don't have any model message yet
-    To be used in the first part of the experiment, where the receiver decides without observing data.
+    '''Function that generates "neutral" graphs of the full dataset, i.e. graphs that don't feature a model message.
+    The function constructs the graphs and rescales data automatically, before saving the files to the specified directory.
+    Graphs serve as a "resolution" of the receiver's problem, revealing the expost price and correct decision.
     
     Inputs:
-        data: 2D np.array of shape 2xT - Y's and X's to be plotted
-        model_space: 1D np-array: models for which to fit and draw an individual graph, each
-        hyperparams: (optional?) 1D np.array - specifying special settings for the graph generation
-        (TBD)
-        wd: string - working directory where the files are to be saved.
+        data: pandas DataFrame - dataframe that contains column "Stock price" with dep. var. and "Time" as indep. var.
+        target_directory: path - working directory where the files are to be saved.
+        data_name:  string - name or identifier of dataset for graphs to be created.
 
-    Outputs: neutral_graph_`data': picture file with neutral graphs saved to prespecified
-    project folder.
+    Outputs: None. (graph is saved to pre-specified directory, but not returned.)
     '''
   
     fig = px.line(data, x="Time", 
