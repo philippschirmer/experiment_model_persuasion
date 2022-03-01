@@ -198,6 +198,7 @@ class Player(BasePlayer):
 
     buys = models.IntegerField(initial=0)
     correct_choices = models.IntegerField(initial=0)
+    correct_neutral_choices = models.IntegerField(initial=0)
 
 
 
@@ -250,6 +251,11 @@ def set_payoffs(group):
         receiver_decision_4 = player.field_maybe_none('receiver_decision_4')
         receiver_decision_5 = player.field_maybe_none('receiver_decision_5')
 
+        receiver_decision_neutral_1 = player.field_maybe_none('receiver_decision_neutral_1')
+        receiver_decision_neutral_2 = player.field_maybe_none('receiver_decision_neutral_2')
+        receiver_decision_neutral_3 = player.field_maybe_none('receiver_decision_neutral_3')
+        receiver_decision_neutral_4 = player.field_maybe_none('receiver_decision_neutral_4')
+        receiver_decision_neutral_5 = player.field_maybe_none('receiver_decision_neutral_5')
 
         player.payoff = cu(0)
 
@@ -258,6 +264,13 @@ def set_payoffs(group):
                                         receiver_decision_3,
                                         receiver_decision_4,
                                         receiver_decision_5]
+
+        receiver_neutral_choices_made = [receiver_decision_neutral_1,
+                                        receiver_decision_neutral_2,
+                                        receiver_decision_neutral_3,
+                                        receiver_decision_neutral_4,
+                                        receiver_decision_neutral_5]
+
 
         # count correct choices made
         player.correct_choices = 0
@@ -270,9 +283,21 @@ def set_payoffs(group):
         for i in range(0,len(receiver_choices_made)):
             if receiver_choices_made[i] == "Buy":
                 player.buys = player.buys + 1
+
+        # count correct neutral choices (just for receivers' payoff)
+        player.correct_neutral_choices = 0
+        for i in range(0,len(receiver_neutral_choices_made)):
+           if receiver_neutral_choices_made[i] == ex_post_correct[i]:
+               player.correct_neutral_choices = player.correct_neutral_choices + 1
         
+        # Set payoffs for receiver's
         if player.id_in_group > 1:
-            player.payoff = cu(player.correct_choices * 100)
+            player.payoff = cu(player.correct_choices * 100 + player.correct_neutral_choices * 100)
+
+
+
+
+
 
         
     correct_choices = [player.correct_choices for player in players]
@@ -284,6 +309,7 @@ def set_payoffs(group):
     print("the total buys are {}".format(total_buys))
 
 
+    # Set payoffs for the persuader
     for player in players:
         if player.id_in_group == 1 and player.treatment == 0:
             player.payoff = cu( total_correct_choices * 100)
