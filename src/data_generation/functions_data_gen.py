@@ -23,9 +23,9 @@ def gen_random_model(model_space, model_prior):
     Output: trend_shift: scalar, realized model choice.
     '''
 
-    trend_shift = np.random.choice(model_space, size=None, replace=True, p=model_prior)
+    # trend_shift = np.random.choice(model_space, size=None, replace=True, p=model_prior)
 
-    trend_shift
+    # trend_shift
 
     # generate trend vector including shift
 
@@ -38,8 +38,8 @@ def gen_random_model(model_space, model_prior):
 
     # trend_with_shift
 
-    return trend_shift
-
+    # return trend_shift
+    pass
 
 # TODO: Write function that generates the data based on model, parameter, observations.
 
