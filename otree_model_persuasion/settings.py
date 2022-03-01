@@ -19,7 +19,9 @@ SESSION_CONFIGS = [
     dict(
         name='persuasion',
         num_demo_participants=2,
-        app_sequence=['persuasion']
+        app_sequence=['persuasion'],
+        # Set use_browser_bots to True to automatically test the app
+        use_browser_bots=True
     ),
     dict(
         name='sandbox',

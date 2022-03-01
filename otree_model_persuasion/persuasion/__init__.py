@@ -17,8 +17,8 @@ class C(BaseConstants): #do not vary from player to player
     PLAYERS_PER_GROUP = 2
     # PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
-    #AGE_MIN = cu(18)
-    #AGE_MAX = cu(80)
+    #AGE_MIN = 18
+    #AGE_MAX = 80
     #PERSUADER_ROLE = 'persuader'
     #RECEIVER_ROLE = 'receiver'
     INSTRUCTIONS_TEMPLATE = 'persuasion/instructions.html' #general instructions
@@ -393,12 +393,12 @@ class BiasedPage_Q(Page):
     ]
 
     def error_message(player, values):
-        if values['item1A'] == 2:
-            return 'Incorrect answer for Question 1. Please try again.'
+        if values['item1A'] != 1:
+            return 'Incorrect or no answer for Question 1. Please try again.'
         if values['item2A'] != 30: ### check which value will apply after selecting final image
-            return 'Incorrect answer for Question 2. Please try again.'
+            return 'Incorrect or no answer for Question 2. Please try again.'
         if values['item3A'] != 'Increase':
-            return 'Incorrect answer for Question 3. Please try again.'
+            return 'Incorrect or no answer for Question 3. Please try again.'
 
     @staticmethod
     def is_displayed(player):
