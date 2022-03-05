@@ -1,5 +1,12 @@
 # Run bots as an oTree-specific way of testing.
 
+# Similar to "normal" tests written for general code, bots interact with the
+# experiment, enter certain values into the formfields and click through pages.
+# The PlayerBot in this file contains in a sense a large number of "small" tests,
+# as it interacts with all pages of the experiment.
+# For pages where the submission has to be restricted e.g. by requiring a
+# number in an interval, the bot contains tests for whether such a submission
+# "rightly" fails.
 
 from otree.api import Currency as c, currency_range, expect, Bot
 from . import *
@@ -23,12 +30,26 @@ class PlayerBot(Bot):
             yield DecisionPersuader1, dict(model_message_1 = 40)
             # Need to change syntax as model_message_2 and further are created
             # dynamically in a Javascript, not in the html.
+
+            # Test whether model messages are enforced in valid range (0,...,T_trunc.)
+            yield SubmissionMustFail(DecisionPersuader2, dict(model_message_2 = 120), check_html=False)
+            yield SubmissionMustFail(DecisionPersuader2, dict(model_message_2 = -10), check_html=False)
             yield Submission(DecisionPersuader2, dict(model_message_2 = 40), check_html=False)
+
+            yield SubmissionMustFail(DecisionPersuader3, dict(model_message_3 = -120), check_html=False)
+            yield SubmissionMustFail(DecisionPersuader3, dict(model_message_3 = 120), check_html=False)
             yield Submission(DecisionPersuader3, dict(model_message_3 = 40), check_html=False)
+            
+            yield SubmissionMustFail(DecisionPersuader4, dict(model_message_3 = -120), check_html=False)
+            yield SubmissionMustFail(DecisionPersuader4, dict(model_message_4 = 120), check_html=False)
             yield Submission(DecisionPersuader4, dict(model_message_4 = 40), check_html=False)
+
+            yield SubmissionMustFail(DecisionPersuader5, dict(model_message_3 = -120), check_html=False)
+            yield SubmissionMustFail(DecisionPersuader5, dict(model_message_5 = 120), check_html=False)
             yield Submission(DecisionPersuader5, dict(model_message_5 = 40), check_html=False)
         
-        if self.player.id_in_group==2:
+        # Pages seen by a receiver player:
+        if self.player.id_in_group>1:
             yield ReceiverPage
             yield ReceiverPage_Q
             yield DecisionReceiverNeutral1, dict(receiver_decision_neutral_1 = "Buy")

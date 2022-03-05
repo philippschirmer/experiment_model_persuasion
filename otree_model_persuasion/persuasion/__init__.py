@@ -464,10 +464,14 @@ class DecisionPersuader2(Page):
     @staticmethod
     def is_displayed(player):
         return player.role() == 'persuader'
-    # def var_for_template(player):
-    #     graph_number = 2
-    #     model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
-    #     # Incomplete model path, to be extended with chosen model message (slider in html/JS)
+
+    def error_message(player, values):
+        if values["model_message_2"] >80:
+            return 'Switching point has to be before end of data.'
+        if values["model_message_2"] <0:
+            return "Please choose a positive switching point."
+
+    # Incomplete model path, is extended with chosen model message (slider in html/JS)
     def vars_for_template(player):
         graph_number = 2
         init_model = "/static/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
@@ -475,6 +479,8 @@ class DecisionPersuader2(Page):
             'init_model': init_model
         }
 
+    # Dynamically rename the slider input in the html to fill changing model message
+    # Passes slider name from Python to javascript, which in turn renames the html slider.
     @staticmethod
     def js_vars(player):
         graph_number = 2
@@ -492,10 +498,14 @@ class DecisionPersuader3(Page):
     @staticmethod
     def is_displayed(player):
         return player.role() == 'persuader'
-    # def var_for_template(player):
-    #     graph_number = 2
-    #     model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
-    #     # Incomplete model path, to be extended with chosen model message (slider in html/JS)
+
+    @staticmethod
+    def error_message(player, values):
+        if values["model_message_3"] >80:
+            return 'Switching point has to be before end of data.'
+        if values["model_message_3"] <0:
+            return "Please choose a positive switching point."
+
     def vars_for_template(player):
         graph_number = 3
         init_model = "/static/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
@@ -519,6 +529,14 @@ class DecisionPersuader4(Page):
     @staticmethod
     def is_displayed(player):
         return player.role() == 'persuader'
+
+    @staticmethod
+    def error_message(player, values):
+        if values["model_message_4"] >80:
+            return 'Switching point has to be before end of data.'
+        if values["model_message_4"] <0:
+            return "Please choose a positive switching point."
+    
     # def var_for_template(player):
     #     graph_number = 2
     #     model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
@@ -546,10 +564,15 @@ class DecisionPersuader5(Page):
     @staticmethod
     def is_displayed(player):
         return player.role() == 'persuader'
-    # def var_for_template(player):
-    #     graph_number = 2
-    #     model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
-    #     # Incomplete model path, to be extended with chosen model message (slider in html/JS)
+
+
+    @staticmethod
+    def error_message(player, values):
+        if values["model_message_5"] >80:
+            return 'Switching point has to be before end of data.'
+        if values["model_message_5"] <0:
+            return "Please choose a positive switching point."
+
     def vars_for_template(player):
         graph_number = 5
         init_model = "/static/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
