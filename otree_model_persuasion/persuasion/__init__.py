@@ -446,6 +446,15 @@ class DecisionPersuader1(Page):
             'init_model': init_model
         }
 
+    def error_message(player, values):
+    # TODO: Define truncation point as a global variable at beginning.
+        if values["model_message_1"] >80:
+            return 'Switching point has to be before end of data.'
+        if values["model_message_1"] <0:
+            return "Please choose a positive switching point."
+
+
+
     @staticmethod
     def js_vars(player):
         graph_number = 1
@@ -466,6 +475,7 @@ class DecisionPersuader2(Page):
         return player.role() == 'persuader'
 
     def error_message(player, values):
+        # TODO: Define truncation point as a global variable at beginning.
         if values["model_message_2"] >80:
             return 'Switching point has to be before end of data.'
         if values["model_message_2"] <0:

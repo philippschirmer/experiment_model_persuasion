@@ -20,6 +20,7 @@ class PlayerBot(Bot):
             yield PersuaderPage
             if self.player.bias() == 'biased':
                 yield BiasedPage
+                # TODO: Check whether wrong responses fail the test.
                 yield BiasedPage_Q, dict(item1A = 1, item2A= 30, item3A = "Increase")
             
             if self.player.bias() == 'aligned':
@@ -27,8 +28,15 @@ class PlayerBot(Bot):
                 yield AlignedPage_Q, dict(item1B = 'The buyer receives a positive revenue since he/she could sell the stock and make a profit.',
                                             item2A= 30,
                                             item3A = 'Increase')
+
+
+            # Test whether model messages are correctly limited to model space.
+
+            yield SubmissionMustFail(DecisionPersuader1, dict(model_message_1=120))
+            yield SubmissionMustFail(DecisionPersuader1, dict(model_message_1=-10))
             yield DecisionPersuader1, dict(model_message_1 = 40)
-            # Need to change syntax as model_message_2 and further are created
+
+            # From here on adapted syntax, as model_message_2 and further are created
             # dynamically in a Javascript, not in the html.
 
             # Test whether model messages are enforced in valid range (0,...,T_trunc.)
