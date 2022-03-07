@@ -2,7 +2,6 @@ name: experiment_model_persuasion
 channels:
   - conda-forge
   - plotly
-
   - r
 
 dependencies:
@@ -16,7 +15,6 @@ dependencies:
   - pytask-latex>=0.0.12
 
   - pytask-r>=0.0.9
-
 
   - pytest
   - pytest-cov
@@ -38,6 +36,7 @@ dependencies:
   - pip:
 
     - pre-commit
+    - otree
 
     - kaleido
     - sphinx
