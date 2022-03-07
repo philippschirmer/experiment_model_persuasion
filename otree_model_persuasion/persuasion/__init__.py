@@ -12,13 +12,11 @@ Demo of o-Tree Persuasion game
 """
 Constant values for game.p
 """
-class C(BaseConstants): #do not vary from player to player
+class C(BaseConstants): #base constants that do not vary from player to player
     NAME_IN_URL = 'persuasion'
     PLAYERS_PER_GROUP = 2
-    # PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
-    #AGE_MIN = 18
-    #AGE_MAX = 80
+    SHOW_UP_FEE= cu(500)
     #PERSUADER_ROLE = 'persuader'
     #RECEIVER_ROLE = 'receiver'
     INSTRUCTIONS_TEMPLATE = 'persuasion/instructions.html' #general instructions
@@ -26,7 +24,7 @@ class C(BaseConstants): #do not vary from player to player
     [1, 'True'],
     [2, 'False']
     ]
-    CathegoricalChoices= [
+    CategoricalChoices= [
         [1, 'I strongly disagree'],
         [2, 'I moderately disagree'],
         [3, 'I neither agree nor disagree'],
@@ -146,12 +144,12 @@ class Player(BasePlayer):
     item2C = models.IntegerField(
         label = 'It was easy to understand the general purpose of the game',
         widget=widgets.RadioSelect,
-        choices=C.CathegoricalChoices
+        choices=C.CategoricalChoices
     )
     item3C = models.IntegerField(
         label = 'I did not have troubles understand the selection of regression models',
         widget=widgets.RadioSelect,
-        choices=C.CathegoricalChoices
+        choices=C.CategoricalChoices
     )
     number_selected = models.IntegerField(
         label = 'Your answer'
@@ -199,7 +197,7 @@ class Player(BasePlayer):
     buys = models.IntegerField(initial=0)
     correct_choices = models.IntegerField(initial=0)
     correct_neutral_choices = models.IntegerField(initial=0)
-
+    final_payoff =models.CurrencyField(initial=0)
 
 
 
@@ -258,6 +256,7 @@ def set_payoffs(group):
         receiver_decision_neutral_5 = player.field_maybe_none('receiver_decision_neutral_5')
 
         player.payoff = cu(0)
+        player.final_payoff = cu(0)
 
         receiver_choices_made = [receiver_decision_1,
                                         receiver_decision_2,
@@ -315,8 +314,8 @@ def set_payoffs(group):
             player.payoff = cu( total_correct_choices * 100)
         if player.id_in_group ==1 and player.treatment == 1:
             player.payoff = cu( total_buys * 200)
-
-
+    # Combine with show-up fee for final payoff.
+        player.final_payoff = C.SHOW_UP_FEE + player.payoff
 
 # PAGES
 
@@ -722,13 +721,13 @@ class ReceiverPage_Q(Page):
     'item3A'
     ]
 
-    """    def error_message(player, values):
+    def error_message(player, values):
         if values['item1C'] != 'All the above':
             return 'Incorrect answer for Question 1. Please try again.'
-        if values['item2A'] != 30: ### check which value will apply after selecting final image
+        if values['item2A'] != 30: ### TODO: check which value will apply after selecting final image
             return 'Incorrect answer for Question 2. Please try again.'
         if values['item3A'] != 'Increase':
-            return 'Incorrect answer for Question 3. Please try again.'"""
+            return 'Incorrect answer for Question 3. Please try again.'
 
     @staticmethod
     def is_displayed(player):
@@ -747,18 +746,13 @@ class DecisionReceiver1(Page):
 
 
     def vars_for_template(player):
-        #graph_number = 1
-        # Just using age right now, to check whether it works in general
-        # TODO: Have received model message depend on OTHER player.
-        # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
-        # model_path = "static " + "persuasion/fig_test_10.jpg"
+        # Pass to the html/JS the model selected by the persuader.
         model_path = "/static/persuasion/model_graph_trunc_1_{}.jpg".format(player.message_received_1)
         return{
             'model_path':model_path
         }
 
 class DecisionReceiver2(Page):
-    #page_number = 2 (for figure recognition later)
     template_name = 'persuasion/DecisionReceiver.html'
     form_model = 'player'
     form_fields = ['receiver_decision_2']
@@ -770,10 +764,7 @@ class DecisionReceiver2(Page):
 
 
     def vars_for_template(player):
-        # Just using age right now, to check whether it works in general
-        # TODO: Have received model message depend on OTHER player.
-        # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
-        # model_path = "static " + "persuasion/fig_test_10.jpg"
+        # Pass to the html/JS the model selected by the persuader.
         model_path = "/static/persuasion/model_graph_trunc_2_{}.jpg".format(player.message_received_2)
 
         return{
@@ -781,7 +772,6 @@ class DecisionReceiver2(Page):
         }
 
 class DecisionReceiver3(Page):
-    #page_number = 2 (for figure recognition later)
     template_name = 'persuasion/DecisionReceiver.html'
     form_model = 'player'
     form_fields = ['receiver_decision_3']
@@ -793,10 +783,7 @@ class DecisionReceiver3(Page):
 
 
     def vars_for_template(player):
-        # Just using age right now, to check whether it works in general
-        # TODO: Have received model message depend on OTHER player.
-        # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
-        # model_path = "static " + "persuasion/fig_test_10.jpg"
+        # Pass to the html/JS the model selected by the persuader.
         model_path = "/static/persuasion/model_graph_trunc_3_{}.jpg".format(player.message_received_3)
 
         return{
@@ -804,7 +791,6 @@ class DecisionReceiver3(Page):
         }
 
 class DecisionReceiver4(Page):
-    #page_number = 2 (for figure recognition later)
     template_name = 'persuasion/DecisionReceiver.html'
     form_model = 'player'
     form_fields = ['receiver_decision_4']
@@ -816,10 +802,7 @@ class DecisionReceiver4(Page):
 
 
     def vars_for_template(player):
-        # Just using age right now, to check whether it works in general
-        # TODO: Have received model message depend on OTHER player.
-        # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
-        # model_path = "static " + "persuasion/fig_test_10.jpg"
+        # Pass to the html/JS the model selected by the persuader.
         model_path = "/static/persuasion/model_graph_trunc_4_{}.jpg".format(player.message_received_4)
 
         return{
@@ -828,7 +811,6 @@ class DecisionReceiver4(Page):
 
 
 class DecisionReceiver5(Page):
-    #page_number = 2 (for figure recognition later)
     template_name = 'persuasion/DecisionReceiver.html'
     form_model = 'player'
     form_fields = ['receiver_decision_5']
@@ -840,10 +822,7 @@ class DecisionReceiver5(Page):
 
 
     def vars_for_template(player):
-        # Just using age right now, to check whether it works in general
-        # TODO: Have received model message depend on OTHER player.
-        # model_path = "static " + "persuasion/fig_test_{}.jpg".format(player.age)
-        # model_path = "static " + "persuasion/fig_test_10.jpg"
+        # Pass to the html/JS the model selected by the persuader.
         model_path = "/static/persuasion/model_graph_trunc_5_{}.jpg".format(player.message_received_5)
 
         return{
@@ -899,9 +878,13 @@ class WaitForResults(WaitPage):
 
 class Results(Page):
     @staticmethod
+
+
+
     def vars_for_template(player):
         return {
-            "player.payoff":player.payoff
+            "player.payoff":player.payoff,
+            "player.final_payoff": player.final_payoff
         }
 
 

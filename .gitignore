@@ -47,6 +47,7 @@ waf3-*
 .*pdfsvn
 __pycache__
 analysis_out
+env
 bld
 build
 debug
