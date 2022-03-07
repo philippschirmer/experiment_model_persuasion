@@ -134,7 +134,7 @@ def task_get_simulated_data(produces):
     save_data(sample_2, produces["second"])
     sample_3 = generate_data(model_switching_point=60, model_change_sign="neg_to_pos", trend_abs=1, var_errors=10, obs=100, seed=34567)
     save_data(sample_3, produces["third"])
-    sample_4 = generate_data(model_switching_point=30, model_change_sign="pos_to_neg", trend_abs=5, var_errors=20, obs=100, seed=45678)
+    sample_4 = generate_data(model_switching_point=30, model_change_sign="neg_to_pos", trend_abs=5, var_errors=20, obs=100, seed=45678)
     save_data(sample_4, produces["fourth"])
     sample_5 = generate_data(model_switching_point=50, model_change_sign="neg_to_pos", trend_abs=1, var_errors=30, obs=100, seed=56789)
     save_data(sample_5, produces["fifth"])

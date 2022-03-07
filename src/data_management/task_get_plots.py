@@ -8,56 +8,128 @@ from src.config import BLD
  
 # t_list_model = np.arange(0,T_model,1,dtype=int)
 # model_space = t_list_model
-model_space = [1,2,3,4]
 
-#test for just 1 data set and 1 figure
-#for j in range(1,5): 
 
-for i in list(model_space):
 
-    @pytask.mark.task
-    @pytask.mark.depends_on(BLD / "data/data_1.csv")
-    @pytask.mark.produces(BLD / "figures/"f"model_graph_trunc_1_{i}.jpg")
-    def task_get_plots(depends_on, produces):
-        data_1 = pd.read_csv(depends_on)
+#### Working get plots
 
-        shift_point = i
 
-        fig = px.line(data_1.head(80), x="Time", 
-                            y="Stock price",
-                            labels={'number_obs':'Number of Observations', 'runtime':'runtime'},
-                            title='Development of a stock price',
-                            )
-        fig.update_layout(paper_bgcolor='#fff' )
-        fig.update_layout(plot_bgcolor='#fff' )
-        fig.update_yaxes(range=[0, data_1["Stock price"].max()+100])
-        fig.update_xaxes(range=[0, 80+20])
+data_sets = 5
+models = 81
 
-        fig.add_shape(type="line",
-            xref="x", yref="y",
-            x0=shift_point, y0=0, x1=shift_point, y1=data_1["Stock price"].max()+100,
-            line=dict(
-                dash = "dot",
-                color="Black",
-                width=3,
-            ),
-        )
+param_list = [(0,0) for i in range((data_sets)*(models))]
 
-        fig.add_shape(type="line",
-            xref="x", yref="y",
-            x0=shift_point, y0=data_1.iat[shift_point,1], x1=80, y1=data_1.iat[80,1],
-            line=dict(
-                color="LightSeaGreen",
-                width=3,
-            ),
-        )
+for j in range(1,data_sets+1):
+    for i in range(0, models):
+        index = models*(j-1) + i
+        param_list[index]= (BLD / "figures" / f"model_graph_trunc_{j}_{i}.jpg", BLD / f"data/data_{j}.csv", i)
 
-        fig.add_shape(type="line",
-            xref="x", yref="y",
-            x0=0, y0=data_1.iat[0,1], x1=shift_point, y1=data_1.iat[shift_point,1],
-            line=dict(
-                color="LightSeaGreen",
-                width=3,
-            ),
-        )
-        fig.write_image(produces)
+param_list[0]
+
+
+@pytask.mark.task
+@pytask.mark.parametrize(
+"produces, depends_on, shift_point",
+param_list,)
+
+def task_get_plots(produces, depends_on, shift_point):
+    data_1 = pd.read_csv(depends_on)
+
+    # TODO delete shift_point = i
+    'test'
+    fig = px.line(data_1.head(80), x="Time", 
+                        y="Stock price",
+                        labels={'number_obs':'Number of Observations', 'runtime':'runtime'},
+                        title='Development of a stock price',
+                        )
+    fig.update_layout(paper_bgcolor='#fff' )
+    fig.update_layout(plot_bgcolor='#fff' )
+    fig.update_yaxes(range=[0, data_1["Stock price"].max()+100])
+    fig.update_xaxes(range=[0, 80+20])
+
+    fig.add_shape(type="line",
+        xref="x", yref="y",
+        x0=shift_point, y0=0, x1=shift_point, y1=data_1["Stock price"].max()+100,
+        line=dict(
+            dash = "dot",
+            color="Black",
+            width=3,
+        ),
+    )
+
+    fig.add_shape(type="line",
+        xref="x", yref="y",
+        x0=shift_point, y0=data_1.iat[shift_point,1], x1=80, y1=data_1.iat[80,1],
+        line=dict(
+            color="LightSeaGreen",
+            width=3,
+        ),
+    )
+
+    fig.add_shape(type="line",
+        xref="x", yref="y",
+        x0=0, y0=data_1.iat[0,1], x1=shift_point, y1=data_1.iat[shift_point,1],
+        line=dict(
+            color="LightSeaGreen",
+            width=3,
+        ),
+    )
+    fig.write_image(produces)
+
+
+
+
+# Code that only works under new pytask 0.2.0 (not released yet as of March 6 2022)
+
+# for i in range(5):
+
+#     @pytask.mark.task
+#     @pytask.mark.depends_on(BLD / "data/data_1.csv")
+#     @pytask.mark.produces(BLD / "figures" / "model_graph_trunc_1_{}.jpg".format(i))
+#     def task_get_plots(produces, depends_on):
+#         data_1 = pd.read_csv(depends_on)
+
+#         shift_point = i
+#         'test'
+#         fig = px.line(data_1.head(80), x="Time", 
+#                             y="Stock price",
+#                             labels={'number_obs':'Number of Observations', 'runtime':'runtime'},
+#                             title='Development of a stock price',
+#                             )
+#         fig.update_layout(paper_bgcolor='#fff' )
+#         fig.update_layout(plot_bgcolor='#fff' )
+#         fig.update_yaxes(range=[0, data_1["Stock price"].max()+100])
+#         fig.update_xaxes(range=[0, 80+20])
+
+#         fig.add_shape(type="line",
+#             xref="x", yref="y",
+#             x0=shift_point, y0=0, x1=shift_point, y1=data_1["Stock price"].max()+100,
+#             line=dict(
+#                 dash = "dot",
+#                 color="Black",
+#                 width=3,
+#             ),
+#         )
+
+#         fig.add_shape(type="line",
+#             xref="x", yref="y",
+#             x0=shift_point, y0=data_1.iat[shift_point,1], x1=80, y1=data_1.iat[80,1],
+#             line=dict(
+#                 color="LightSeaGreen",
+#                 width=3,
+#             ),
+#         )
+
+#         fig.add_shape(type="line",
+#             xref="x", yref="y",
+#             x0=0, y0=data_1.iat[0,1], x1=shift_point, y1=data_1.iat[shift_point,1],
+#             line=dict(
+#                 color="LightSeaGreen",
+#                 width=3,
+#             ),
+#         )
+#         fig.write_image(produces)
+
+
+
+
