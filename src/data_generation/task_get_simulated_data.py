@@ -1,9 +1,7 @@
 import numpy as np
 import pandas as pd
 import pytask
-from src.config import ROOT
-from pathlib import Path
-import os
+from src.config import BLD
 
 obs = 100
 
@@ -121,10 +119,22 @@ def generate_data(model_switching_point, model_change_sign, trend_abs, var_error
 def save_data(sample, path):
     sample.to_csv(path, sep=",", index=False)
 
-cwd = os.getcwd()
-root = Path(cwd).parent
 
-@pytask.mark.produces(root / "data_1.csv")
+@pytask.mark.produces({
+                    "first": BLD / "data/data_1.csv", 
+                    "second": BLD / "data/data_2.csv", 
+                    "third": BLD / "data/data_3.csv",
+                    "fourth": BLD / "data/data_4.csv",
+                    "fifth" : BLD / "data/data_5.csv"
+})
 def task_get_simulated_data(produces):
     sample_1 = generate_data(model_switching_point=40, model_change_sign="neg_to_pos", trend_abs=1, var_errors=10, obs=100, seed=12345)
-    save_data(sample_1, produces)
+    save_data(sample_1, produces["first"])
+    sample_2 =  generate_data(model_switching_point=20, model_change_sign="pos_to_neg", trend_abs=1, var_errors=10, obs=100, seed=23456)
+    save_data(sample_2, produces["second"])
+    sample_3 = generate_data(model_switching_point=60, model_change_sign="neg_to_pos", trend_abs=1, var_errors=10, obs=100, seed=34567)
+    save_data(sample_3, produces["third"])
+    sample_4 = generate_data(model_switching_point=30, model_change_sign="pos_to_neg", trend_abs=5, var_errors=20, obs=100, seed=45678)
+    save_data(sample_4, produces["fourth"])
+    sample_5 = generate_data(model_switching_point=50, model_change_sign="neg_to_pos", trend_abs=1, var_errors=30, obs=100, seed=56789)
+    save_data(sample_5, produces["fifth"])
