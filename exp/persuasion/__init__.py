@@ -613,7 +613,7 @@ class AlignedPage(Page):
 Pages to keep receiver busy while persuader makes chart choiced.
 """
 class DecisionReceiverNeutral1(Page):
-    template_name = 'persuasion/ReceiverBusy.html'
+    template_name = 'persuasion/DecisionReceiverNeutral.html'
     form_model = 'player'
     form_fields = ['receiver_decision_neutral_1']
 
@@ -630,7 +630,7 @@ class DecisionReceiverNeutral1(Page):
         }
 
 class DecisionReceiverNeutral2(Page):
-    template_name = 'persuasion/ReceiverBusy.html'
+    template_name = 'persuasion/DecisionReceiverNeutral.html'
     form_model = 'player'
     form_fields = ['receiver_decision_neutral_2']
 
@@ -647,7 +647,7 @@ class DecisionReceiverNeutral2(Page):
         }
 
 class DecisionReceiverNeutral3(Page):
-    template_name = 'persuasion/ReceiverBusy.html'
+    template_name = 'persuasion/DecisionReceiverNeutral.html'
     form_model = 'player'
     form_fields = ['receiver_decision_neutral_3']
 
@@ -664,7 +664,7 @@ class DecisionReceiverNeutral3(Page):
         }
 
 class DecisionReceiverNeutral4(Page):
-    template_name = 'persuasion/ReceiverBusy.html'
+    template_name = 'persuasion/DecisionReceiverNeutral.html'
     form_model = 'player'
     form_fields = ['receiver_decision_neutral_4']
 
@@ -681,7 +681,7 @@ class DecisionReceiverNeutral4(Page):
         }
 
 class DecisionReceiverNeutral5(Page):
-    template_name = 'persuasion/ReceiverBusy.html'
+    template_name = 'persuasion/DecisionReceiverNeutral.html'
     form_model = 'player'
     form_fields = ['receiver_decision_neutral_5']
 
