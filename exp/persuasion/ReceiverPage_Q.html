@@ -1,0 +1,22 @@
+{{ block title }}Comprehension Questions{{ endblock }}
+{{ block content }}
+
+    <p>
+        Please answer the following questions.
+    </p>
+
+    {{ formfield 'item1C'}}
+    <p>
+        2. Tell the stock price at time <MATH>T=?</MATH>  in the following graph:
+        <p><img src="{{ static 'first_test_survey/rplot_1_8.jpg' }}" width="300px"/></p>
+    </p>
+    {{ formfield 'item2A'}}
+
+    <p>
+        3. According to the following model, what do you expect to happend to the stock price in period <MATH>T=100</MATH>?:
+        <p><img src="{{ static 'first_test_survey/rplot_1_8.jpg' }}" width="300px"/></p>
+    </p>
+    {{ formfield 'item3A'}}
+    {{ next_button }}
+
+{{ endblock }}
