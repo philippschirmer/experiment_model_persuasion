@@ -443,7 +443,7 @@ class DecisionPersuader1(Page):
     #     # Incomplete model path, to be extended with chosen model message (slider in html/JS)
     def vars_for_template(player):
         graph_number = 1
-        init_model = "/templates/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
+        init_model = "/static/bld/model_graph_trunc_{}_0.jpg".format(graph_number)
         return{
             'init_model': init_model
         }
@@ -461,7 +461,7 @@ class DecisionPersuader1(Page):
     def js_vars(player):
         graph_number = 1
         #model_path_init = "/static/persuasion/model_graph_trunc_{}_0".format(graph_number)
-        model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+        model_path_incomplete = "/static/bld/model_graph_trunc_{}_".format(graph_number)
         slider_name = "model_message_{}".format(graph_number)
         return dict(
             model_path_incomplete = model_path_incomplete,
@@ -486,7 +486,7 @@ class DecisionPersuader2(Page):
     # Incomplete model path, is extended with chosen model message (slider in html/JS)
     def vars_for_template(player):
         graph_number = 2
-        init_model = "/static/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
+        init_model = "/static/bld/model_graph_trunc_{}_0.jpg".format(graph_number)
         return{
             'init_model': init_model
         }
@@ -496,7 +496,7 @@ class DecisionPersuader2(Page):
     @staticmethod
     def js_vars(player):
         graph_number = 2
-        model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+        model_path_incomplete = "/static/bld/model_graph_trunc_{}_".format(graph_number)
         slider_name = "model_message_{}".format(graph_number)
         return dict(
             model_path_incomplete = model_path_incomplete,
@@ -520,14 +520,14 @@ class DecisionPersuader3(Page):
 
     def vars_for_template(player):
         graph_number = 3
-        init_model = "/static/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
+        init_model = "/static/bld/model_graph_trunc_{}_0.jpg".format(graph_number)
         return{
             'init_model': init_model
         }
     @staticmethod
     def js_vars(player):
         graph_number = 3
-        model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+        model_path_incomplete = "/static/bld/model_graph_trunc_{}_".format(graph_number)
         slider_name = "model_message_{}".format(graph_number)
         return dict(
             model_path_incomplete = model_path_incomplete,
@@ -555,14 +555,14 @@ class DecisionPersuader4(Page):
     #     # Incomplete model path, to be extended with chosen model message (slider in html/JS)
     def vars_for_template(player):
         graph_number = 4
-        init_model = "/static/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
+        init_model = "/static/bld/model_graph_trunc_{}_0.jpg".format(graph_number)
         return{
             'init_model': init_model
         }
     @staticmethod
     def js_vars(player):
         graph_number = 4
-        model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+        model_path_incomplete = "/static/bld/model_graph_trunc_{}_".format(graph_number)
         slider_name = "model_message_{}".format(graph_number)
         return dict(
             model_path_incomplete = model_path_incomplete,
@@ -587,7 +587,7 @@ class DecisionPersuader5(Page):
 
     def vars_for_template(player):
         graph_number = 5
-        init_model = "/static/persuasion/model_graph_trunc_{}_0.jpg".format(graph_number)
+        init_model = "/static/bld/model_graph_trunc_{}_0.jpg".format(graph_number)
         return{
             'init_model': init_model
         }
@@ -595,7 +595,7 @@ class DecisionPersuader5(Page):
     @staticmethod
     def js_vars(player):
         graph_number = 5
-        model_path_incomplete = "/static/persuasion/model_graph_trunc_{}_".format(graph_number)
+        model_path_incomplete = "/static/bld/model_graph_trunc_{}_".format(graph_number)
         slider_name = "model_message_{}".format(graph_number)
         return dict(
             model_path_incomplete = model_path_incomplete,
@@ -623,7 +623,7 @@ class DecisionReceiverNeutral1(Page):
 
     def vars_for_template(player):
         graph_number = 1
-        model_path = "/static/persuasion/neutral_graph_trunc_{}.jpg".format(graph_number)
+        model_path = "/static/bld/neutral_graph_trunc_{}.jpg".format(graph_number)
 
         return{
             'model_path':model_path
@@ -640,7 +640,7 @@ class DecisionReceiverNeutral2(Page):
 
     def vars_for_template(player):
         graph_number = 2
-        model_path = "/static/persuasion/neutral_graph_trunc_{}.jpg".format(graph_number)
+        model_path = "/static/bld/neutral_graph_trunc_{}.jpg".format(graph_number)
 
         return{
             'model_path':model_path
@@ -657,7 +657,7 @@ class DecisionReceiverNeutral3(Page):
 
     def vars_for_template(player):
         graph_number = 3
-        model_path = "/static/persuasion/neutral_graph_trunc_{}.jpg".format(graph_number)
+        model_path = "/static/bld/neutral_graph_trunc_{}.jpg".format(graph_number)
 
         return{
             'model_path':model_path
@@ -674,7 +674,7 @@ class DecisionReceiverNeutral4(Page):
 
     def vars_for_template(player):
         graph_number = 4
-        model_path = "/static/persuasion/neutral_graph_trunc_{}.jpg".format(graph_number)
+        model_path = "/static/bld/neutral_graph_trunc_{}.jpg".format(graph_number)
 
         return{
             'model_path':model_path
@@ -691,7 +691,7 @@ class DecisionReceiverNeutral5(Page):
 
     def vars_for_template(player):
         graph_number = 5
-        model_path = "/static/persuasion/neutral_graph_trunc_{}.jpg".format(graph_number)
+        model_path = "/static/bld/neutral_graph_trunc_{}.jpg".format(graph_number)
 
         return{
             'model_path':model_path
@@ -750,7 +750,7 @@ class DecisionReceiver1(Page):
 
     def vars_for_template(player):
         # Pass to the html/JS the model selected by the persuader.
-        model_path = "/static/persuasion/model_graph_trunc_1_{}.jpg".format(player.message_received_1)
+        model_path = "/static/bld/model_graph_trunc_1_{}.jpg".format(player.message_received_1)
         return{
             'model_path':model_path
         }
@@ -768,7 +768,7 @@ class DecisionReceiver2(Page):
 
     def vars_for_template(player):
         # Pass to the html/JS the model selected by the persuader.
-        model_path = "/static/persuasion/model_graph_trunc_2_{}.jpg".format(player.message_received_2)
+        model_path = "/static/bld/model_graph_trunc_2_{}.jpg".format(player.message_received_2)
 
         return{
             'model_path':model_path
@@ -787,7 +787,7 @@ class DecisionReceiver3(Page):
 
     def vars_for_template(player):
         # Pass to the html/JS the model selected by the persuader.
-        model_path = "/static/persuasion/model_graph_trunc_3_{}.jpg".format(player.message_received_3)
+        model_path = "/static/bld/model_graph_trunc_3_{}.jpg".format(player.message_received_3)
 
         return{
             'model_path':model_path
@@ -806,7 +806,7 @@ class DecisionReceiver4(Page):
 
     def vars_for_template(player):
         # Pass to the html/JS the model selected by the persuader.
-        model_path = "/static/persuasion/model_graph_trunc_4_{}.jpg".format(player.message_received_4)
+        model_path = "/static/bld/model_graph_trunc_4_{}.jpg".format(player.message_received_4)
 
         return{
             'model_path':model_path
@@ -826,7 +826,7 @@ class DecisionReceiver5(Page):
 
     def vars_for_template(player):
         # Pass to the html/JS the model selected by the persuader.
-        model_path = "/static/persuasion/model_graph_trunc_5_{}.jpg".format(player.message_received_5)
+        model_path = "/static/bld/model_graph_trunc_5_{}.jpg".format(player.message_received_5)
 
         return{
             'model_path':model_path
