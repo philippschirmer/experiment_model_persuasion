@@ -14,7 +14,7 @@ from src.config import SRC
     "builder, produces",
     [
         ("latexpdf", BLD / "documentation" / "latex" / "project_documentation.pdf"),
-        ("html", (BLD / "documentation" / "html").rglob("*.*")),
+        ("html", BLD / "documentation" / "html" / "index.html"),
     ],
 )
 def task_build_documentation(builder, produces):
