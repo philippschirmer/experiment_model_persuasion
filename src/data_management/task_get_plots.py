@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytask
 import plotly.express as px
-from src.config import BLD
+from src.config import BLD, EXP
 
 # T_model = 3
  
@@ -22,7 +22,7 @@ param_list = [(0,0) for i in range((data_sets)*(models))]
 for j in range(1,data_sets+1):
     for i in range(0, models):
         index = models*(j-1) + i
-        param_list[index]= (BLD / "figures" / f"model_graph_trunc_{j}_{i}.jpg", BLD / f"data/data_{j}.csv", i)
+        param_list[index]= (EXP / "_static/bld" / f"model_graph_trunc_{j}_{i}.jpg", BLD / f"data/data_{j}.csv", i)
 
 param_list[0]
 
