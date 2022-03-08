@@ -26,9 +26,6 @@ def gen_model_graphs_trunc(data, model_space, trunc, target_directory, data_name
 
     Outputs: None. (graph is saved to pre-specified directory, but not returned.)
     '''
-
-
-
   
     for i in model_space:
 
