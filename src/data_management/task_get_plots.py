@@ -24,7 +24,6 @@ for j in range(1,data_sets+1):
         index = models*(j-1) + i
         param_list[index]= (EXP / "_static/bld" / f"model_graph_trunc_{j}_{i}.jpg", BLD / f"data/data_{j}.csv", i)
 
-param_list[0]
 
 
 @pytask.mark.task
@@ -35,7 +34,6 @@ param_list,)
 def task_get_plots(produces, depends_on, shift_point):
     data_1 = pd.read_csv(depends_on)
 
-    # TODO delete shift_point = i
     'test'
     fig = px.line(data_1.head(80), x="Time", 
                         y="Stock price",
@@ -77,8 +75,36 @@ def task_get_plots(produces, depends_on, shift_point):
     fig.write_image(produces)
 
 
+# task for neutral graphs
+
+data_sets = 5
+
+param_list_neutral = [(0,0) for i in range((data_sets))]
+
+for j in range(1,data_sets+1):
+    index = j-1
+    param_list_neutral[index]= (EXP / "_static/bld" / f"neutral_graph_trunc_{j}.jpg", BLD / f"data/data_{j}.csv")
+
+@pytask.mark.task
+@pytask.mark.parametrize(
+"produces, depends_on",
+param_list_neutral,) 
+
+def task_get_neutral_plots(produces, depends_on):
+    data = pd.read_csv(depends_on)
+    trunc = 80
+    fig = px.line(data.head(trunc), x="Time", 
+                        y="Stock price",
+                        labels={'number_obs':'Number of Observations', 'runtime':'runtime'},
+                        title='Development of a stock price',
+                        )
+    fig.update_yaxes(range=[0, data["Stock price"].max()+100])
+    fig.update_xaxes(range=[0, trunc+20])
+    fig.update_layout(paper_bgcolor='#fff' )
+    fig.update_layout(plot_bgcolor='#fff' )
 
 
+    fig.write_image(produces)
 # Code that only works under new pytask 0.2.0 (not released yet as of March 6 2022)
 
 # for i in range(5):
