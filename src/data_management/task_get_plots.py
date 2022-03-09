@@ -4,16 +4,6 @@ import pytask
 import plotly.express as px
 from src.config import BLD, EXP
 
-# T_model = 3
- 
-# t_list_model = np.arange(0,T_model,1,dtype=int)
-# model_space = t_list_model
-
-
-
-#### Working get plots
-
-
 data_sets = 5
 models = 81
 
@@ -25,16 +15,29 @@ for j in range(1,data_sets+1):
         param_list[index]= (EXP / "_static/bld" / f"model_graph_trunc_{j}_{i}.jpg", BLD / f"data/data_{j}.csv", i)
 
 
-
 @pytask.mark.task
 @pytask.mark.parametrize(
 "produces, depends_on, shift_point",
 param_list,)
 
 def task_get_plots(produces, depends_on, shift_point):
+    '''Task that generates the financial graphs picked by the persuader and later sent to the receiver.
+    Using truncated data, a naiver linear estimation of the trend is fitted before and after 
+    each possible switching point. The task then creates a graph per possible model, generating a full set 
+    of charts that are displayed by a javascript slider in the oTree application.
+
+    Args:
+    
+        produces (path): path to export financial chart in the form of a jpg image.
+
+        depends_on (path): path where the data.csv file can be found.
+
+        shift_point (integer): point in the x-axis from where the model will be fitted.
+
+    Returns: None. (graph is saved to pre-specified directory, but not returned.)
+    '''
     data_1 = pd.read_csv(depends_on)
 
-    'test'
     fig = px.line(data_1.head(80), x="Time", 
                         y="Stock price",
                         labels={'number_obs':'Number of Observations', 'runtime':'runtime'},
@@ -75,36 +78,6 @@ def task_get_plots(produces, depends_on, shift_point):
     fig.write_image(produces)
 
 
-# task for neutral graphs
-
-data_sets = 5
-
-param_list_neutral = [(0,0) for i in range((data_sets))]
-
-for j in range(1,data_sets+1):
-    index = j-1
-    param_list_neutral[index]= (EXP / "_static/bld" / f"neutral_graph_trunc_{j}.jpg", BLD / f"data/data_{j}.csv")
-
-@pytask.mark.task
-@pytask.mark.parametrize(
-"produces, depends_on",
-param_list_neutral,) 
-
-def task_get_neutral_plots(produces, depends_on):
-    data = pd.read_csv(depends_on)
-    trunc = 80
-    fig = px.line(data.head(trunc), x="Time", 
-                        y="Stock price",
-                        labels={'number_obs':'Number of Observations', 'runtime':'runtime'},
-                        title='Development of a stock price',
-                        )
-    fig.update_yaxes(range=[0, data["Stock price"].max()+100])
-    fig.update_xaxes(range=[0, trunc+20])
-    fig.update_layout(paper_bgcolor='#fff' )
-    fig.update_layout(plot_bgcolor='#fff' )
-
-
-    fig.write_image(produces)
 # Code that only works under new pytask 0.2.0 (not released yet as of March 6 2022)
 
 # for i in range(5):
