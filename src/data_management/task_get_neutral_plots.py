@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import pytask
 import plotly.express as px
@@ -21,6 +20,18 @@ for j in range(1,data_sets+1):
 param_list_neutral,) 
 
 def task_get_neutral_plots(produces, depends_on):
+    '''Task that generates neutral graphs (i.e., without model messages) from truncated data. These graphs
+    are shown to the receivers so they make financial decisions prior to the exposure to model messages send
+    by the persuader.
+
+    Args:
+
+        produces (path): path to export neutral financial chart in the form of a jpg image.
+
+        depends_on (path): path where the data.csv file can be found.
+
+    Returns: None. (graph is saved to pre-specified directory, but not returned.)
+    '''
     data = pd.read_csv(depends_on)
     trunc = 80
     fig = px.line(data.head(trunc), x="Time", 
