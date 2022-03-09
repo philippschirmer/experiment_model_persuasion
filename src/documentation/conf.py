@@ -46,7 +46,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Experiment Model Persuasion"
-copyright = "2019-, Carolina Alvarez Garavito, Philipp Schirmer"
+copyright = "2022-, Carolina Alvarez Garavito, Philipp Schirmer"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -192,7 +192,7 @@ latex_documents = [
     (
         "index",
         "project_documentation.tex",
-        """Documentation of the Experiment Model Persuasion project""",
+        """Documentation of the Experiment on Model Persuasion project""",
         "Carolina Alvarez Garavito, Philipp Schirmer",
         "manual",
     )
