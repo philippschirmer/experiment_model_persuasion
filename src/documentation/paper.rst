@@ -1,11 +1,13 @@
 .. _paper:
 
 ******************************
-Research paper / presentations
+Research paper
 ******************************
 
 Purpose of the different files (rename them to your liking):
 
     * :file:`research_paper.tex` contains the actual paper.
-    * :file:`research_pres_30min.tex` contains a typical conference presentation.
-    * :file:`formulas` contains short files with the LaTeX formulas -- put these into a library for re-use in paper and presentations.
+    
+ At this stage of the evolving project, the paper provides some motivation, literature review
+ as well as theoretic background for the experiment we coded. It should be considered just a starting 
+ point for an actual research paper.
