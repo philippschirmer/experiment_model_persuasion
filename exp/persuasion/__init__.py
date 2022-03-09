@@ -369,8 +369,7 @@ class PersuaderPage(Page):
     @staticmethod
     def vars_for_template(player):
         return dict(
-        image_path='first_test_survey/Rplot_1_{}.png',
-        #image_path='first_test_survey/Rplot_1_5.png',
+        image_path='comprehension_figures/Rplot_1_{}.png',
         a=15
         )
 
@@ -397,7 +396,7 @@ class BiasedPage_Q(Page):
     def error_message(player, values):
         if values['item1A'] != 1:
             return 'Incorrect or no answer for Question 1. Please try again.'
-        if values['item2A'] != 30: ### check which value will apply after selecting final image
+        if values['item2A'] != 20: 
             return 'Incorrect or no answer for Question 2. Please try again.'
         if values['item3A'] != 'Increase':
             return 'Incorrect or no answer for Question 3. Please try again.'

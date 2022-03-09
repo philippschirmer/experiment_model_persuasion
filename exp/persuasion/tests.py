@@ -21,12 +21,12 @@ class PlayerBot(Bot):
             if self.player.bias() == 'biased':
                 yield BiasedPage
                 # TODO: Check whether wrong responses fail the test.
-                yield BiasedPage_Q, dict(item1A = 1, item2A= 30, item3A = "Increase")
+                yield BiasedPage_Q, dict(item1A = 1, item2A= 20, item3A = "Increase")
             
             if self.player.bias() == 'aligned':
                 yield AlignedPage 
                 yield AlignedPage_Q, dict(item1B = 'The buyer receives a positive revenue since he/she could sell the stock and make a profit.',
-                                            item2A= 30,
+                                            item2A= 20,
                                             item3A = 'Increase')
 
 
@@ -62,11 +62,11 @@ class PlayerBot(Bot):
             # Test whether comprehension tests work correctly.
             yield SubmissionMustFail(
                 ReceiverPage_Q,dict(item1C= 'If you buy the stock now and sell it later at a higher price.', 
-                                        item2A= 30, 
+                                        item2A= 20, 
                                         item3A= "Decrease"))
         
             yield ReceiverPage_Q, dict(item1C= "All the above",
-                                        item2A= 30, 
+                                        item2A= 20, 
                                         item3A= "Increase")
 
 
