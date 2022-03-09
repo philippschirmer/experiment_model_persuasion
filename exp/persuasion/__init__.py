@@ -63,6 +63,10 @@ def make_field(label):
         label = label,
         widget = widgets.RadioSelect)
 
+'''
+Classes
+'''
+
 class Player(BasePlayer):
     age = models.IntegerField(
         label='What is your age?',
@@ -76,14 +80,14 @@ class Player(BasePlayer):
         ],
         label='What is your gender?',
         widget=widgets.RadioSelect,
-        blank=True # FOR TESTING...quitar despues 
+        blank=True # TODO FOR TESTING...quitar despues 
     )
     finance = models.IntegerField(
         label="Please rate your previous financial knowledge on a percentage scale between 0 and 100.",
         blank=True,
         initial=None
     )
-    treatment = models.BooleanField(initial=True) #esto a la final es con random.choice([True, False]) TODO
+    treatment = models.BooleanField(initial=False) #esto a la final es con random.choice([True, False]) TODO
     def role(player):
         if player.id_in_group == 1:
             return 'persuader'
@@ -106,9 +110,9 @@ class Player(BasePlayer):
     item2A = models.IntegerField(
         label = '',
         choices = [
-        '10', 
-        '20',
-        '30'                
+        '100', 
+        '200',
+        '300'                
         ],
         widget=widgets.RadioSelect,
         blank=True
@@ -322,8 +326,6 @@ def set_payoffs(group):
 
 # PAGES
 
-
-
 """
 Introduction page where general instructions are displayed.
 """
@@ -369,7 +371,7 @@ class PersuaderPage(Page):
     @staticmethod
     def vars_for_template(player):
         return dict(
-        image_path='comprehension_figures/Rplot_1_{}.png',
+        image_path='bld/neutral_graph_trunc_{}.jpg',
         a=15
         )
 
@@ -396,9 +398,9 @@ class BiasedPage_Q(Page):
     def error_message(player, values):
         if values['item1A'] != 1:
             return 'Incorrect or no answer for Question 1. Please try again.'
-        if values['item2A'] != 20: 
+        if values['item2A'] != 100: 
             return 'Incorrect or no answer for Question 2. Please try again.'
-        if values['item3A'] != 'Increase':
+        if values['item3A'] != 'Decrease':
             return 'Incorrect or no answer for Question 3. Please try again.'
 
     @staticmethod
@@ -412,23 +414,21 @@ class AlignedPage_Q(Page):
     'item2A', 
     'item3A'
     ]
-    """
+
     def error_message(player, values):
         if values['item1B'] != 'The buyer receives a positive revenue since he/she could sell the stock and make a profit.':
             return 'Incorrect answer for Question 1. Please try again.'
-        if values['item2A'] != 30: ### check which value will apply after selecting final image
+        if values['item2A'] != 100: 
             return 'Incorrect answer for Question 2. Please try again.'
-        if values['item3A'] != 'Increase':
-            return 'Incorrect answer for Question 3. Please try again.'"""
+        if values['item3A'] != 'Decrease':
+            return 'Incorrect answer for Question 3. Please try again.'
 
     @staticmethod
     def is_displayed(player):
         return player.bias() == 'aligned'
 
-"""
-Page for decision making for the persuader (does it matter if he/she is aligned or biased?)
 
-"""
+
 class DecisionPersuader1(Page):
     template_name = "persuasion/DecisionPersuader.html"
     form_model = 'player'
@@ -726,9 +726,9 @@ class ReceiverPage_Q(Page):
     def error_message(player, values):
         if values['item1C'] != 'All the above':
             return 'Incorrect answer for Question 1. Please try again.'
-        if values['item2A'] != 30: ### TODO: check which value will apply after selecting final image
+        if values['item2A'] != 100:
             return 'Incorrect answer for Question 2. Please try again.'
-        if values['item3A'] != 'Increase':
+        if values['item3A'] != 'Decrease':
             return 'Incorrect answer for Question 3. Please try again.'
 
     @staticmethod
@@ -736,7 +736,6 @@ class ReceiverPage_Q(Page):
         return player.role() == 'receiver'
 
 class DecisionReceiver1(Page):
-    #page_number = 1 (for figure recognition later)
     template_name = 'persuasion/DecisionReceiver.html'
     form_model = 'player'
     form_fields = ['receiver_decision_1']
