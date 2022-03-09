@@ -19,6 +19,8 @@
 % \usepackage{pdf14} % Enable for Manuscriptcentral -- can't handle pdf 1.5
 % \usepackage{endfloat} % Enable to move tables / figures to the end. Useful for some submissions.
 
+\usepackage{amsthm}
+\newtheorem{hypothesis}{Hypothesis}
 
 
 \usepackage{natbib}
@@ -50,7 +52,7 @@
 
 \begin{document}
 
-\title{Experiment Model Persuasion\thanks{Carolina Alvarez Garavito, Philipp Schirmer, University of Bonn. Email: \href{mailto:schirmerphilipp@gmail.com}{\nolinkurl{schirmerphilipp [at] gmail [dot] com}}.}}
+\title{An Experiment on Model Persuasion\thanks{Carolina Alvarez Garavito, Philipp Schirmer, University of Bonn. Email: \href{mailto:schirmerphilipp@gmail.com}{\nolinkurl{schirmerphilipp [at] gmail [dot] com}}.}}
 
 \author{Carolina Alvarez Garavito, Philipp Schirmer}
 
@@ -64,52 +66,113 @@
 
 
 \begin{abstract}
-    VERY Preliminary \\
-
     We develop and implement a novel experimental design to test a theory of model persuasion using the 
-    experimental platform oTree. To achieve this, we make use Python and JavaScript code as well as 
-    employing html and CSS to make the experiment visually appealing.
-
-    In a game between a sender and possibly multiple receivers, the sender can access an interactive toolbox of
-    different model choices that can be used to persuade a receiver. The model messages contain no
-    new information per se, and should hence not move the receiver's belief. In a setting that mimics real-life
-    financial chart analysis, we can test several hypotheses concerned with "sense-making" persuasion by
-    a potentially biased sender.
+    experimental platform oTree. To achieve this, we make use of Python and JavaScript script and employ HTML and CSS for the experiment's visuals. In a game between a sender and possibly multiple receivers, the sender can access an interactive toolbox of different model choices that can be used to persuade a receiver. The model messages contain no
+    new `hard' information, and should hence not move the beliefs of a fully Bayesian receiver. In a setting that mimics real-life financial chart analysis, we can test several hypotheses concerned with `sense-making' persuasion by a potentially biased sender.
 \end{abstract}
 \clearpage
 
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
-If you are using this template, please cite this item from the references: \cite{GaudeckerEconProjectTemplates}
+This paper supplements the project documentation. Where the project documentation focuses on the usage of the created scripts and processes that constitute the experiment, here we provide more background, providing motivation and (stylized) theory behind the experiment\footnote{Parts of this paper are adapted from a research proposal by Philipp Schirmer and Antonia Antweiler in a topics course supervised by Prof. Kube.}. The project at hand grew out of a research proposal for a course in experimental economics, where a novel experimental setting for testing model-based persuasion was proposed. In this sense, the project augments and supersedes the research proposal by providing a first, fully functional `proof of concept' for the proposed experimental setting. Ideally, this paper might serve as a starting point for a potential research paper that could grow out of this project.\footnote{This project has been build based on a template by \cite{GaudeckerEconProjectTemplates}.}
 
-\cite{Schelling69} example in the code is taken from \cite{StachurskiSargent13}
-
-Test.
-
-The decision rule of an agent is the following:
-\input{formulas/decision_rule}
-
-\begin{figure}
-    \caption{Segregation by cycle in the baseline \cite{Schelling69} model as in the \cite{StachurskiSargent13} example
-    }
-
-    \includegraphics[width=\textwidth]{../../bld/figures/schelling_baseline}
-
-\end{figure}
+In the experiment we developed on the platform oTree using scripts in Python and JavaScript, participants take the roles of persuader and receiver of in a game of model-based persuasion. In a setting of financial chart "technical analysis", subjects are presented with randomly generated time series graphs that mimic the development of real-world stock prices. For a series of such graphs, receivers are asked to make incentivized `investment' decisions for which they need to predict the further development of the stock. Persuaders observe the same graphs, and can access an interactive toolbox, where by moving a slider they can view different graphical models that explain the data and predict future development. From the available models, they are asked to pick a model that best convinces the receiver to take an action in the persuader's interest. To our knowledge, we are the among the first provide an experimental framework for testing model-based persuasion by developing a special experiment that allows to observe subjects' thinking about models.
 
 
-\begin{figure}
-    \caption{Segregation by cycle in the baseline %\citet{Schelling69} model, limiting the number of potential moves per period to two
-    }
+\section{Motivation}
 
-    \includegraphics[width=\textwidth]{../../bld/figures/schelling_max_moves_2}
+In much of our everyday interaction, `sense-making' communication plays an important role. While some of our communication is purely dedicated to conveying new information, a significant portion is at least partly concerned with providing narratives or models to interpret and make sense of existing data. Maybe not surprisingly, models about the world are often shared not only with the self-less goal of sharing information, but with the goal to `persuade' the recipient to take the persuader's desired action.
 
-\end{figure}
+Examples of model-based persuasion can be found in diverse settings such as legal disputes, entrepreneurial investment pitches or financial advisory. In the court room, attorneys  `connect the dots', making sense of commonly available evidence to convince judge or jury of their side. Entrepreneurs `pitch' their new project based in the observable success and failures of past projects, persuading an investor that past successes predict future success. Financial advisers use chart analyses of public stock price data. to convince clients of buying recommended stocks. The above examples illustrate how real-life persuasion often consists not in sharing new information, but rather in providing the models or narratives to make sense of existing information. Despite its importance, however, the notion of `model persuasion' has not received much experimental attention as of yet. 
 
-% section introduction (end)
+We propose a novel experimental design that mimics real-life persuasion, while offering a controlled setting that allows for the testing of hypotheses derived from theory. In the experiment, subjects take the roles of a financial advisor or `persuader' and a customer or `receiver' in a setting of financial chart analysis. The persuader provide models that "explain" the history of observed price developments to influence the receivers' actions. In a treatment, we vary the incentives of persuaders to analyse strategic model sending. In order to isolate the effects of model messages as opposed to "real" and verifiable information provision, we implement a novel experimental environment in oTree that exhibits a well-defined model message space, allowing us to test both classic theories of `cheap talk' in the spirit of \cite{crawford1982strategic}, as well as the recent theory of model persuasion put forth by \cite{Schwartzstein}.
+
+\textit{Related Literature.} The presented framework of model persuasion relates to several strands of literature in economics. First, it connects to the persuasion literature in economics. In classical `Bayesian persuasion' settings in the tradition of \cite{KG}, persuasion is modelled through the information channel, with persuaders aiming to influence the receiver's beliefs by providing verifiable information. The experiment we implement is most closely linked to the model persuasion by \citet{Schwartzstein}. They provide a theoretical framework in which persuaders influence receivers' beliefs by providing models, where a proposed model is adopted if it fits the data better than some baseline model. Our experiment also contributes to the empirical literature of persuasion, of which \cite{dellavigna2010persuasion} provide an overview. A notable recent addition to the literature is \cite{frechette2019rules}, who consider the importance of rule-setting in a unified experimental framework that encompasses Bayesian persuasion.
+
+Our set-up is also related to approaches drawing the connection between abstract models and narratives. \cite{Eliaz} develop a framework in which political narratives are represented as causal models that map actions into consequences. Following the Bayesian networks literature, they represent the narrative models as causal directed acyclic graphs, making them thereby tractable. \citet{Falk} study the role of imperatives and narratives with respect to moral reasoning and moral decision-making.
+
+Finally, there have recently been some experimental assessments of narratives. \citet{Harrs} investigate how optimistic and pessimistic narratives of the COVID-19 pandemic impact economic behavior. They find that narratives change subjects’ expectations about the pandemic and the stock market when confronted with optimistic or pessimistic assessments. \citet{Andre} assess people's subjective models of the macroeconomy using vignettes that feature exogenous shocks. \cite{haaland2021inflation} consider the impact of inflation narratives on economic decisions.
+
+\section{Theory and Hypotheses}
+
+Before elaborating the design choices of the experiment, a brief and informal exposition of the theory helps to set the stage. In a classic game of `Bayesian persuasion', introduced in a seminal paper by \cite{KG}, a `sender' (or `persuader') is equipped with verifiable information about the state of world $\theta$ that is relevant to the decision-making of a `receiver'. In the first stage of the game, the sender can choose how much of the information to reveal to the receiver, with the restriction that she cannot lie, that is convey false information. In the second stage of the game, the receiver is tasked with making a decision based on the received signal $s$ about the true state. The payoffs of both persuader and receiver depend on the action of the receiver, as well as the true state of the world. Importantly, persuader and receiver can have different incentives, that is the preferred action preferred by the receiver might differ from the preferred action of the persuader.\\
+
+A central result of rational decision-making in a game of `Bayesian persuasion' is that in equilibrium, the receiver is aware of when a persuader's signal does not carry relevant information. That is, when the message of the persuader is `cheap talk', that is if the message does not carry relevant new information, the persuader's decision will not be affected.\\
+
+\cite{Schwartzstein} introduce a non-Bayesian setting `model persuasion', in which the persuader does not possess additional relevant information about the state of the world. Instead, both persuader and receiver observe the same set of data, but are uncertain about the true data-generating process. The persuader is aware about the different models that might have generated the observed data. The receiver is naive with respect to all the different possible models, but possesses a baseline model with which she assesses the data and other models.
+
+From a compact space of models, the persuader chooses the model message which most shifts the receiver's action towards the persuader's preferred action, subject to the constraint that the likelihood of observing the data is at least as high under the `sent' model as under the receiver's baseline model. Given the receiver's naiveté about the true model and prior probability of the different models, the sender can persuade the receiver to take another action.
+
+For the experiment, we translate this general framework into a setting of financial chart analysis. The observed data corresponds to a generated time series of stock prices, that follow a random walk with either a positive or negative drift. The drift of the random walk can switch at one point in the observed data, and the possible switching points correspond to the model space. As in \cite{Schwartzstein}, the agents only chose the model, with the parametrization (i.e. the estimated trend)  being provided by a given algorithm\footnote{In the current `proof of concept', the algorithm estimates the trend by the average of lagged differences.} The receiver's baseline model is a switching point at $T=0$, which corresponds to there being no trend change in the observed data.
+
+Given the close correspondence between theory and experimental design, there are several hypotheses that we hope to test.
 
 
+
+
+\begin{hypothesis}
+Receivers are influenced in their beliefs and decision-making by "persuasive models", even if no new information is provided.
+\end{hypothesis}
+
+\begin{hypothesis}
+Receivers are influenced more strongly by models that better fit the data than a naive `baseline' model. 
+\end{hypothesis}
+
+\begin{hypothesis}
+Persuaders pick models that better `fit' the data if they are unbiased. For biased incentives, they trade off model fit and guiding the prediction in the desired direction.
+\end{hypothesis}
+
+
+
+
+\section{Experimental Design Decisions}
+
+The experimental design is seeks to isolate the effects of model persuasion from possibly confounding effects such as information provision and framing. By setting the stage of a financial chart analysis, we hope to obtain both a realistic setting, while also still being able to test predictions from theory.
+
+
+
+A central design decision we faced revolved around whether experimental subjects should assume the role of the `persuader', `receiver' or take both side of the model. We here pursue an experimental design featuring both persuaders and receivers, with each subject only ever taking one of the two roles.
+
+While making the set-up more complex, the existence of `real' receivers is valuable to provide the persuaders with incentives to be convincing, while the existence of `real' persuaders makes the decision-setting more realistic for the receivers. 
+
+We propose two settings of model persuasion inspired by \citet{Schwartzstein}. A first setting considers stylized financial advisory using `technical analysis' of financial graphs such as stock price development, where future trends are `drawn into' the graph by the persuaders. Here, the underlying model space concerns the development of a stock value, where the `true' trend can be modelled by a linear trend of the last $X$ observed stock prices. 
+
+A second setting considers the project history of an entrepreneur and an investor's decision to invest in the next project. The history of past successes and failures is informative about future projects, but the exact relationship is uncertain, as the otherwise constant success probability might have changed once in the observed history, at an unknown point in time $X$. 
+\subsection{Financial Chart Setting}
+
+In the financial chart setting, subjects take the (simplified) role of financial advisers, called persuaders or financial clients, called receivers. At the beginning of the experiment, subjects are randomly selected to represent either `persuaders' or `receivers'. They are introduced to the setting of the experiment and their role. Then, they are  informed about the general characteristics of the underlying model space, namely that the development of the stock follows a random process with a trend. This trend component is generally constant but might change up to once at a random point in time. Both persuaders and receivers have no private information on the true linear trend, other than what is commonly observable in the financial chart. 
+
+To be precise, subjects are shown financial charts for a noisy stock price time series of $T_1=80$ periods, and asked to predict the stock price at $T_2=100$. We use a second time point further in the future to ensure that the model (i.e. trend) plays an important role in contrast to random shocks. The appendix contains examples of generated stock prices and possible linear trends (models). Before starting the experiment, subjects have to pass a comprehension test.
+
+\textit{Persuaders.} After the introduction, persuaders are presented with the key innovation of the experiment: For a given financial graph, they can access an interactive panel, where a slider allows to draw linear trends into the graph. The options for linear trends are given by linear regressions over the last $X$ data points. This pins down the model space for the persuader. 
+
+As a treatment, persuaders are randomly assigned an incentive role: Either they are `biased' or `aligned'. If they are `aligned', they are rewarded if the receiver takes the right decision, that is if the receiver buys and the stock price increases, or if the receiver sells and the stock price falls. If they are `biased', they earn instead a reward whenever the receiver buys the stock. They are then asked comprehension questions to check the understanding of their incentives.
+
+Then, persuaders are presented with a series of randomly generated financial graphs with time span $T_1 = 80$ and asked to make their modeling decisions to guide receivers' expectations of whether the stock price increases or decreases in period $T_2=100$ relative to $T_1 = 80$. While persuaders have no additional information about the true model, unbiased persuaders can try to give their best guess of what the true model (trend) is, and biased persuaders can try to steer receiver's decisions by picking a model with upward sloping trend.
+
+After persuaders provided their `models' for a sequence of financial charts, they are asked concluding questions about their thought process when making modeling decisions. At the end of the experiment, `persuaders' are paid a fixed fee as well as an additional reward if the matched receivers their `model' recommendations chose in line with the persuader's incentives. 
+
+\textit{Receivers.} After being informed about the general set-up, receivers are introduced to their decision problem of buying or selling the stock, and the reward if they predict the price development correctly. Comprehension questions ensure that receivers understand their incentives.
+
+In the first main part of the experiment, receivers are matched with persuaders and shown the same raw financial charts as the matched persuader\footnote{ This is not necessarily a 1 to 1 matching, as one persuader could be matched to multiple receivers.} . Based on the raw data, receivers make investment decisions, that is to buy or sell the stock at the last observed price. If the receiver bought (sold) the stock, and the simulated stock price at $T_2=100$ is higher (lower) than at $T_1=80$, the receiver gains additional revenue. After making a sequence of decisions for several financial graphs, receivers engage in a real effort task for some time, for example the transcription of meaningless Greek texts (see e.g. \cite{Augenblick}). This serves to create a temporal and cognitive distance between both parts of the experiment.
+
+In the second main part of the experiment, receivers are again presented with the same financial graphs as in the first part. However, they are in a randomized order, and include the `models' provided by the matched persuader. As in the first part, receivers are asked whether they would buy or sell the stock at the last observed price with identical incentives as before. After making the decisions to buy or sell, they are also asked to give their estimate of how likely it is for the stock price to increase or decrease. Finally, they are also asked about their thought process, and whether they felt persuaded by the models.
+
+An important treatment is concerned with the information about persuader's incentives: Before making decisions in the second part of the experiment, a subset of the receivers is informed about their persuader's incentives to motivate a buy of the stock or to remain neutral, while another subset remains uninformed. The treatment effect on the decision to buy the stock, based on the same underlying data, but different incentives is directly related to the hypotheses.
+
+At the end of the experiment, subjects that were receivers obtain a fixed fee as well as additional payments based on their decisions.
+
+
+
+\section{Conclusion}
+
+In this final project for `Effective Programming Practices for Economists', we have programmed an experimental design using Python and JavaScript (as well as making use of HTML and CSS). The experimental design presents a novel approach for understanding persuasive communication using models, and manages simultaneously to exhibit a well-defined model space while presenting a setting that resembles real life.
+
+From a programming perspective, our project's main achievements lie in developing the interactive game of model persuasion with all its facets. First, this includes generating random stock price graphs in a reproducible way, automatising the process generating provide the model graphs that are central to the experiment. This ensures reproducibility. Second, on the experiment side, the central goal from a personal perspective was to learn and apply using Python and JavaScript as is required for use of the oTree platform. The key challenge we overcame was to implement a dynamic slider that allows persuaders to choose a model message. This required careful coding, as at the same time, the relevant set of model messages were provided by a Python script, but the selected message needed to change based on user's actions on the HTML page. This required a JavaScript that in turn feeds back to the Python code base to save the model choice before sending it to the other agents.
+Third, we attempted to follow coding best practices by basing the project on git, providing a sensible folder structure, and writing extensive tests for the experiment using so-called bots.
+
+While the experiment is already fully functional in the sense that it can be run as is, it is still mainly a proof of concept. For implementing the experiment with paid subjects, there is still work ahead. For example, it should still be carefully considered which treatments are best used to shed light on different hypothesis. Additionally, the real effort task at the moment is mainly a placeholder, might need to be expanded. Somewhat independent from the "coding" side of things, there is plenty of consideration necessary for the exact wording of information slides, decision pages and others. While these open questions that much can still be done in the project, we could already achieve much of the `programming work' required. Given the reproducible and well-structured nature of the project, it should now be easy to expand it in all different kinds of directions.
 
 
 
