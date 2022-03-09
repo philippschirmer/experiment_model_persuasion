@@ -1,9 +1,5 @@
 .. This the Experiment Model Persuasion project's documentation master file.
 
-.. You can adapt this file completely to your liking,
-.. but it should at least contain the `toctree` directive.
-
-
 Welcome to the Experiment Model Persuasion project's documentation!
 ================================================================================================
 
@@ -11,12 +7,8 @@ Welcome to the Experiment Model Persuasion project's documentation!
     :maxdepth: 2
 
     introduction
-    original_data
+    data_generation
     data_management
-    analysis
-    final
-    model_code
-    model_specs
-    library
+    exp
     paper
     references
