@@ -49,7 +49,7 @@ ADMIN_USERNAME = 'admin'
 ADMIN_PASSWORD = environ.get('OTREE_ADMIN_PASSWORD')
 
 DEMO_PAGE_INTRO_HTML = """
-Here are some oTree games.
+This is a demonstration of a model persuasion game experiment. To proceed, click on the "persuasion" app.
 """
 
 
