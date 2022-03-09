@@ -30,7 +30,6 @@ def task_get_neutral_plots(produces, depends_on):
 
         depends_on (path): path where the data.csv file can be found.
 
-    Returns: None. (graph is saved to pre-specified directory, but not returned.)
     '''
     data = pd.read_csv(depends_on)
     trunc = 80

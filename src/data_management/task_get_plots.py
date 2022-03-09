@@ -33,8 +33,6 @@ def task_get_plots(produces, depends_on, shift_point):
         depends_on (path): path where the data.csv file can be found.
 
         shift_point (integer): point in the x-axis from where the model will be fitted.
-
-    Returns: None. (graph is saved to pre-specified directory, but not returned.)
     '''
     data_1 = pd.read_csv(depends_on)
 
