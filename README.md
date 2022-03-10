@@ -6,7 +6,7 @@ Philipp Schirmer
 ## Abstract 
 
 > We develop and implement a novel experimental design to test a theory of model-based
-persuasion using the experimental platform oTree. To achieve this, we make use Python
+persuasion using the experimental platform [oTree](https://www.otree.org/). To achieve this, we make use Python
 and JavaScript code and employ HTML and CSS for the experiment’s visuals. In a game
 between a sender and possibly multiple receivers, the sender can access an interactive
 toolbox of different model choices that can be used to persuade a receiver. The model

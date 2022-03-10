@@ -20,13 +20,13 @@ class PlayerBot(Bot):
             yield PersuaderPage
             if self.player.bias() == 'biased':
                 yield BiasedPage
-                yield BiasedPage_Q, dict(item1A = 1, item2A= 20, item3A = "Increase")
+                yield BiasedPage_Q, dict(item1A = 1, item2A= 100, item3A = "Decrease")
             
             if self.player.bias() == 'aligned':
                 yield AlignedPage 
                 yield AlignedPage_Q, dict(item1B = 'The buyer receives a positive revenue since he/she could sell the stock and make a profit.',
-                                            item2A= 20,
-                                            item3A = 'Increase')
+                                            item2A= 100,
+                                            item3A = 'Decrease')
 
 
             # Test whether model messages are correctly limited to model space.
@@ -65,8 +65,8 @@ class PlayerBot(Bot):
                                         item3A= "Decrease"))
         
             yield ReceiverPage_Q, dict(item1C= "All the above",
-                                        item2A= 20, 
-                                        item3A= "Increase")
+                                        item2A= 100, 
+                                        item3A= "Decrease")
 
 
             # Test whether receiver decision is implemented correctly.
@@ -109,13 +109,13 @@ class PlayerBot(Bot):
             # skip WaitForResults here, as bots handle these automatically.
 
         if self.player.id_in_group >1:
-            expect(self.player.payoff, 800)
+            expect(self.player.payoff, 200)
 
         # Persuader's payoffs depend on other player's actions, and especially number of receivers.
         if self.player.id_in_group ==1 and C.PLAYERS_PER_GROUP==2 and self.player.bias()=="biased":
             expect(self.player.payoff, 600)
 
         if self.player.id_in_group ==1 and C.PLAYERS_PER_GROUP==2 and self.player.bias()=="aligned":
-            expect(self.player.payoff, 800)
+            expect(self.player.payoff, 100)
             # yielding Results ends the game for a player.
             # yield Results

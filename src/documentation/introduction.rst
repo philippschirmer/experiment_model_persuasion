@@ -7,7 +7,11 @@ Introduction
 
 For the final project in Effective Programming Practices for Economists, we implement a novel experimental
 design that aims to provide a better understanding of persuasive communication between agents in a financial 
+<<<<<<< HEAD
 analysis setting. We use *oTree* (Chen et al 2016), an open-source Python framework for experimental research, to develop a 
+=======
+analysis setting. We use **oTree** (Chen et al 2016), an open-source Python framework for experimental research, to develop a 
+>>>>>>> bb606759287fa9cb1b548fe211e72e63f8b7140c
 proof of concept for a game that tests financial client's reaction to models proposed by a financial advisor.
 
 The purpose of the documentation is to provide a clear understanding of the structure of the project and the 
