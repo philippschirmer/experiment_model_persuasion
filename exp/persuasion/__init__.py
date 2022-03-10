@@ -238,7 +238,6 @@ def set_payoffs(group):
 
     # Define when a buy/sell are the ex post "right" decision.
     # TODO: Here still random ex post correct.
-    stock_price_100 = [100, 100, 100, 100, 100]
     ex_post_correct = ["Buy", "Sell", "Buy", "Sell", "Buy"]
 
     for player in players:
