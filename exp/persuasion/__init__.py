@@ -63,7 +63,7 @@ Classes
 class Player(BasePlayer):
     age = models.IntegerField(
         label='What is your age?',
-        blank=True
+        blank=False
     ) 
     gender = models.StringField(
         choices=[
@@ -73,11 +73,11 @@ class Player(BasePlayer):
         ],
         label='What is your gender?',
         widget=widgets.RadioSelect,
-        blank=True
+        blank=False
     )
     finance = models.IntegerField(
         label="Please rate your previous financial knowledge on a percentage scale between 0 and 100.",
-        blank=True,
+        blank=False,
         initial=None
     )
     treatment = models.BooleanField(initial=False)
