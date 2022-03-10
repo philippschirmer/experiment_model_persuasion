@@ -16,10 +16,25 @@ oTree application.
 
 .. _getting_started:
 
+
 Getting started
 ===============
 
-The best way to interact with this project and explore its contents is to run the experiment oneself on a local test server (i.e. offline).
+We have chosen to use the oTree local test server for testing our application. Please follow these steps to set up all app's 
+inputs and run the server:
 
-Assuming that you have already downloaded this repo, first please activate the environment, and install the necessary dependencies
-such as oTree,  
+* Clone the GitHub repository of the current project in your local machine via:
+    
+    ``git clone https://github.com/philippschirmer/experiment_model_persuasion``.
+
+* Create and activate the environment via:
+
+    ``conda env create -f environment.yml``
+    
+    ``conda activate experiment_model_persuasion``
+
+* In the terminal, run: ``pytask``. This will generate all the necessary plots for the experiment. A detailed description of the different tasks can be found in the following sections. 
+
+* To start the server, run ``otree devserver``. Then open the browser to ``http://localhost:8000``, which will direct you to the persuasion game demo.
+
+* Once in the server, you can test the application by playing the full game for both players.
