@@ -21,16 +21,20 @@ We have chosen to use the oTree local test server for testing our application. P
 inputs and run the server:
 
 1. Clone the GitHub repository of the current project in your local machine via:
+
+.. code-block:: console
     
-    ``git clone https://github.com/philippschirmer/experiment_model_persuasion``.
+    git clone https://github.com/philippschirmer/experiment_model_persuasion.git
 
 2. Create and activate the environment via:
 
-    ``conda env create -f environment.yml``
-    
-    ``conda activate experiment_model_persuasion``
+.. code-block:: console
 
-    ``conda develop .``
+    conda env create -f environment.yml
+    
+    conda activate experiment_model_persuasion
+
+    conda develop .
 
 3. In the terminal, run: ``pytask``. This will generate all the necessary plots for the experiment, as well as the related documentation. A detailed description of the different tasks can be found in the documentation file. 
 
