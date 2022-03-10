@@ -105,7 +105,7 @@ class PlayerBot(Bot):
 
             # Ensure persuader thought process is filled out. 
             yield SubmissionMustFail(ThoughtProcessPersuader)
-            yield ThoughtProcessPersuader, dict(item2C= 3, item3C= 3)
+            yield ThoughtProcessPersuader, dict(item2C= 3, item3C= 3, item4C=3, item5C=3, item6C=3)
             # skip WaitForResults here, as bots handle these automatically.
 
         if self.player.id_in_group >1:

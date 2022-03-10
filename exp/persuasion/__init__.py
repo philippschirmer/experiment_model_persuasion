@@ -152,6 +152,27 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         choices=C.CategoricalChoices
     )
+
+    item4C = models.IntegerField(
+    label = 'When choosing, I tried to pick a model that looks convincing.',
+    widget=widgets.RadioSelect,
+    choices=C.CategoricalChoices
+    )
+
+    item5C = models.IntegerField(
+    label = 'I was aware of the benefits of my message when choosing my models.',
+    widget=widgets.RadioSelect,
+    choices=C.CategoricalChoices
+    )
+
+    item6C = models.IntegerField(
+    label = 'I think having a dog picture as a waiting page greatly improves the experience.',
+    widget=widgets.RadioSelect,
+    choices=C.CategoricalChoices
+    )
+
+
+
     number_selected = models.IntegerField(
         label = 'Your answer'
     )
@@ -824,7 +845,10 @@ class ThoughtProcessPersuader(Page):
     form_model = 'player'
     form_fields = [
     'item2C',
-    'item3C'
+    'item3C',
+    'item4C',
+    'item5C',
+    'item6C'
     ]
     @staticmethod
     def is_displayed(player):
