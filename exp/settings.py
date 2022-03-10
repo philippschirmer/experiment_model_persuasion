@@ -7,8 +7,10 @@ SESSION_CONFIGS = [
         # Game should be able to support any number of players >=2.
         # If changing the number of demo_participants, ensure that PLAYERS_PER_GROUP
         # as defined  in the __init__.py is a divisor.
-        num_demo_participants=4,
+        num_demo_participants=2,
         app_sequence=['persuasion'],
+        # Initialise incentive treatment to False (Aligned), changed randomly when creating subsession
+        treatment = False,
         # Set use_browser_bots to True to automatically test the app
         # with bots from "tests.py"
         use_browser_bots=False

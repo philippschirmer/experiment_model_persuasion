@@ -46,10 +46,6 @@ def generate_data(model_switching_point, model_change_sign, trend_abs, var_error
 
     trend = np.array([0,0])
 
-    # TODO: To be outsourced into model generation process. (?)
-    #draw_rand_bin = rng.binomial(1, p, size=None)
-
-    # TODO: Make 
     if model_change_sign == "pos_to_neg":
         trend = np.array([trend_abs,-trend_abs])
     elif model_change_sign == "neg_to_pos":
@@ -74,7 +70,6 @@ def generate_data(model_switching_point, model_change_sign, trend_abs, var_error
     # shift y upwards by 100 to "normalize" stock
     y = cum_sum_trend + cum_sum_errors
     y = y + 100 - min(y[0:80])
-    # TODO: Better upwards shift by 100 + minimal value observed?
 
     stacked_array= np.stack((t, y), axis=-1)
     data = pd.DataFrame(stacked_array).rename(columns={0: "Time", 1: "Stock price"})

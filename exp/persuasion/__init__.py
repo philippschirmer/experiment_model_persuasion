@@ -9,7 +9,7 @@ bld_str = BLD.as_posix()
 author = 'Carolina Alvarez and Philipp Schirmer'
 
 doc = """
-Demo of o-Tree Persuasion game
+Demo of a Model-Persuasion game in oTree.
 """
 
 """
@@ -20,8 +20,6 @@ class C(BaseConstants): #base constants that do not vary from player to player
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
     SHOW_UP_FEE= cu(500)
-    #PERSUADER_ROLE = 'persuader'
-    #RECEIVER_ROLE = 'receiver'
     INSTRUCTIONS_TEMPLATE = 'persuasion/instructions.html' #general instructions
     BinaryChoices=[
     [1, 'True'],
@@ -39,19 +37,14 @@ class C(BaseConstants): #base constants that do not vary from player to player
     ['Sell', 'Sell']
     ]
 
+
 class Subsession(BaseSubsession):
     pass
 
 
 class Group(BaseGroup):
     pass
-    #model_message_1 = models.IntegerField()
 
-    # def set_model_message_received(group):
-    #     players = group.get_players()
-    #     model_message_test = [p.model_message_1 for p in players]
-    #     for player in players:
-    #         player.message_received = model_message_test[0]
 
 '''
 Functions for player fields
@@ -80,14 +73,15 @@ class Player(BasePlayer):
         ],
         label='What is your gender?',
         widget=widgets.RadioSelect,
-        blank=True # TODO FOR TESTING...quitar despues 
+        blank=True
     )
     finance = models.IntegerField(
         label="Please rate your previous financial knowledge on a percentage scale between 0 and 100.",
         blank=True,
         initial=None
     )
-    treatment = models.BooleanField(initial=False) #esto a la final es con random.choice([True, False]) TODO
+    treatment = models.BooleanField(initial=False)
+
     def role(player):
         if player.id_in_group == 1:
             return 'persuader'
@@ -179,16 +173,6 @@ class Player(BasePlayer):
     message_received_4 = models.IntegerField()
     message_received_5 = models.IntegerField()
 
-    
-    # receiver_decision_1 = models.StringField(
-    # choices=[
-    #         ['Buy', 'Buy'], 
-    #         ['Sell', 'Sell']            
-    # ],
-    # label='Would you like to buy, or sell the stock?',
-    # widget=widgets.RadioSelect,
-    # blank=True # FOR TESTING...quitar despues TODO
-    # )
     receiver_decision_neutral_1 = make_field('Would you like to buy, or sell the stock?')
     receiver_decision_neutral_2 = make_field('Would you like to buy, or sell the stock?')
     receiver_decision_neutral_3 = make_field('Would you like to buy, or sell the stock?')
@@ -219,6 +203,15 @@ class Player(BasePlayer):
 
 # FUNCTIONS
 
+# Upon creating session, randomly assign treatment for persuader: Biased(True) or Aligned (False).
+
+def creating_session(subsession):
+    import random
+    for player in subsession.get_players():
+        player.treatment = random.choice([True, False])
+        print('Persuader treatment set to', player.treatment)
+
+
 # Update players' (receivers) received model message.
 # Function gets called after the effort task, before the second set of receiver decisions.
 def set_model_message_received(group):
@@ -244,8 +237,7 @@ def set_payoffs(group):
     players = group.get_players()
 
     # Define when a buy/sell are the ex post "right" decision.
-    # TODO: Verify ex-post correct, ideally find way to load ex_post_correct from
-    # data generating processes. 
+    # TODO: Here still random ex post correct.
     stock_price_100 = [100, 100, 100, 100, 100]
     ex_post_correct = ["Buy", "Sell", "Buy", "Sell", "Buy"]
 
@@ -448,7 +440,6 @@ class DecisionPersuader1(Page):
         }
 
     def error_message(player, values):
-    # TODO: Define truncation point as a global variable at beginning.
         if values["model_message_1"] >80:
             return 'Switching point has to be before end of data.'
         if values["model_message_1"] <0:
@@ -476,7 +467,6 @@ class DecisionPersuader2(Page):
         return player.role() == 'persuader'
 
     def error_message(player, values):
-        # TODO: Define truncation point as a global variable at beginning.
         if values["model_message_2"] >80:
             return 'Switching point has to be before end of data.'
         if values["model_message_2"] <0:

@@ -20,7 +20,6 @@ class PlayerBot(Bot):
             yield PersuaderPage
             if self.player.bias() == 'biased':
                 yield BiasedPage
-                # TODO: Check whether wrong responses fail the test.
                 yield BiasedPage_Q, dict(item1A = 1, item2A= 20, item3A = "Increase")
             
             if self.player.bias() == 'aligned':
