@@ -1,0 +1,27 @@
+{{ block title }TITLE TO BE CHANGED{{ endblock }}
+{{ block content }}
+
+    <p>
+        We would like to ask you for your interpretations about the following graphs. That is, for each graph, please describe what you
+        think would be a good model to describe the development of the stock price.
+    </p>
+    <p>
+        Filling out these forms greatly supports this research.
+    </p>
+
+<style>
+    td{
+        border-top: 1px solid #e0e0e0;
+    }
+    td:nth-child(2){
+        border-left: 1px solid #e0e0e0;
+    }
+</style>
+
+&nbsp;
+
+    {{formfields}}
+
+    {{ next_button }}
+
+{{ endblock }}

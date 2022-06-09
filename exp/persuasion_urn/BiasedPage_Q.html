@@ -1,0 +1,22 @@
+{{ block title }}Comprehension Questions{{ endblock }}
+{{ block content }}
+
+    <p>
+        Please answer the following questions.
+    </p>
+
+    {{ formfield 'item1A'}}
+    <p>
+        2. Tell the stock price at time <MATH>T=80</MATH>  in the following graph:
+        <p><img src="{{ static 'bld/neutral_graph_trunc_4.jpg' }}" width="400px"/></p>
+    </p>
+    {{ formfield 'item2A'}}
+
+    <p>
+        3. According to the following model, what do you expect to happend to the stock price in period <MATH>T=100</MATH>?:
+        <p><img src="{{ static 'bld/model_graph_trunc_4_50.jpg' }}" width="400px"/></p>
+    </p>
+    {{ formfield 'item3A'}}
+    {{ next_button }}
+
+{{ endblock }}

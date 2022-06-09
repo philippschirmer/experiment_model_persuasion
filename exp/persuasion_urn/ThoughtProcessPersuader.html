@@ -1,0 +1,45 @@
+{{ block title }}Ending evaluation{{ endblock }}
+{{ block content }}
+
+    <p>
+        Thank you for participate in this experiment! As a concluding step, we would like to ask you
+        a few questions about your thought process during the game.
+    </p>
+    <p>
+        Please rank the following statements from 1 to 5, where 1 stands for <b>I strongly disagree</b> and 
+        5 for <b>I strongly agree</b>.
+    </p>
+
+<style>
+    td{
+        border-top: 1px solid #e0e0e0;
+    }
+    td:nth-child(2){
+        border-left: 1px solid #e0e0e0;
+    }
+</style>
+
+&nbsp;
+
+    <p>
+    <table class="table">
+        {% for field in form %}
+            <tr>
+                <td>
+                    {{ field.label }}
+                </td>
+                <td align="center">
+                    1 &nbsp;
+                    {{ for choice in field }}
+                        {{ choice }}
+                    {{ endfor }}
+                    &nbsp; 5
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </p>
+
+    {{ next_button }}
+
+{{ endblock }}

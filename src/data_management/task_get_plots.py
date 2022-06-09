@@ -35,8 +35,8 @@ def task_get_plots(produces, depends_on, shift_point):
         shift_point (integer): point in the x-axis from where the model will be fitted.
     '''
     data_1 = pd.read_csv(depends_on)
-
-    fig = px.line(data_1.head(80), x="Time", 
+    trunc = 81
+    fig = px.line(data_1.head(trunc), x="Time", 
                         y="Stock price",
                         labels={'number_obs':'Number of Observations', 'runtime':'runtime'},
                         title='Development of a stock price',
@@ -44,7 +44,7 @@ def task_get_plots(produces, depends_on, shift_point):
     fig.update_layout(paper_bgcolor='#fff' )
     fig.update_layout(plot_bgcolor='#fff' )
     fig.update_yaxes(range=[0, data_1["Stock price"].max()+100])
-    fig.update_xaxes(range=[0, 80+20])
+    fig.update_xaxes(range=[0, trunc+20])
 
     fig.add_shape(type="line",
         xref="x", yref="y",

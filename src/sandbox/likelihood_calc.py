@@ -54,7 +54,7 @@ def fit_model():
     pass
 
 
-# For e.g. model_choice=50, fit two sub models; linear regression optimal?
+# For e.g. model_choice=50, fit two sub models; linear regression optimal? -> yes
 
 # Better: Look at first differences, estimate average increase -- optimal trend estimate?
 # 

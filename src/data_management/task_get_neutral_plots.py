@@ -32,10 +32,9 @@ def task_get_neutral_plots(produces, depends_on):
 
     '''
     data = pd.read_csv(depends_on)
-    trunc = 80
+    trunc = 81
     fig = px.line(data.head(trunc), x="Time", 
                         y="Stock price",
-                        labels={'number_obs':'Number of Observations', 'runtime':'runtime'},
                         title='Development of a stock price',
                         )
     fig.update_yaxes(range=[0, data["Stock price"].max()+100])
